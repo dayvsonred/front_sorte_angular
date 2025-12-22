@@ -246,7 +246,7 @@ export class ShowComponent implements OnInit {
       width: '500px',
       data: {
         title: 'Bem-vindo!',
-        message: `✔️ Este é seu link para compartilhar sua campanha: ${baseUrl}
+        message: `✔️ Este é seu link para compartilhar sua campanha: <a href="${baseUrl}" target="_blank" rel="noopener noreferrer">${baseUrl}</a>
       
 ✔️ Você pode acessar o site com o email e senha cadastrados.
 

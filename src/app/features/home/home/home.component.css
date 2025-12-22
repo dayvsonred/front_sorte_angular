@@ -26,7 +26,10 @@ button[color="primary"] {
 
 /* Hero Section */
 .hero {
+  background: url('/assets/home_trofel.png') no-repeat center/cover;
+  /* 
   background: url('https://static.vecteezy.com/system/resources/previews/035/598/397/large_2x/ai-generated-champion-award-trophy-cup-winner-concept-ai-generated-photo.jpg') no-repeat center/cover;
+  */
   color: white;
   padding: 100px 16px;
   text-align: center;

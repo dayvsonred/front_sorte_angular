@@ -65,8 +65,22 @@ export class AuthenticationService {
         }
     }
 
-    passwordResetRequest(email: string) {
-        return of(true).pipe(delay(1000));
+        passwordResetRequest(email: string) {
+        const body = { email };
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        const token = this.localStorage.getItem('token');
+
+        if (token) {
+            headers = headers.set('Authorization', token);
+        }
+
+        return this.http.post<{ message: string }>(`${environment.urlBase}/users/passwordRecover`, body, { headers }).pipe(
+            catchError((e) => {
+                if (e.error?.message) return throwError(() => e.error.message);
+
+                return throwError(() => 'Nao foi possivel enviar o link de recuperacao.');
+            })
+        );
     }
 
     changePassword(email: string, currentPwd: string, newPwd: string) {
@@ -352,3 +366,7 @@ export class AuthenticationService {
         );
     }
 }
+
+
+
+

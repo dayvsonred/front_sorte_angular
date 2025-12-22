@@ -2,9 +2,11 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
 
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-password-reset-request',
@@ -20,7 +22,8 @@ export class PasswordResetRequestComponent implements OnInit {
   constructor(private authService: AuthenticationService,
     private notificationService: NotificationService,
     private titleService: Title,
-    private router: Router) { }
+    private router: Router,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.titleService.setTitle('Dádiva');
@@ -37,13 +40,25 @@ export class PasswordResetRequestComponent implements OnInit {
     this.loading = true;
     this.authService.passwordResetRequest(this.email)
       .subscribe(
-        results => {
-          this.router.navigate(['/auth/login']);
-          this.notificationService.openSnackBar('Password verification mail has been sent to your email address.');
+        response => {
+          this.loading = false;
+          const dialogData = new ConfirmDialogModel(
+            'Recuperacao de senha',
+            response?.message || 'Link de recuperacao enviado.'
+          );
+          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: '400px',
+            data: dialogData
+          });
+          dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+            if (confirmed) {
+              this.router.navigate(['/auth/login']);
+            }
+          });
         },
         error => {
           this.loading = false;
-          this.notificationService.openSnackBar(error.error);
+          this.notificationService.openSnackBar(error?.error || error);
         }
       );
   }
@@ -52,3 +67,4 @@ export class PasswordResetRequestComponent implements OnInit {
     this.router.navigate(['/']);
   }
 }
+
