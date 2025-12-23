@@ -43,8 +43,9 @@ export class PasswordResetRequestComponent implements OnInit {
         response => {
           this.loading = false;
           const dialogData = new ConfirmDialogModel(
-            'Recuperacao de senha',
-            response?.message || 'Link de recuperacao enviado.'
+            'Recuperação de senha',
+            response?.message || 'Link de recuperação enviado.',
+            true
           );
           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             maxWidth: '400px',

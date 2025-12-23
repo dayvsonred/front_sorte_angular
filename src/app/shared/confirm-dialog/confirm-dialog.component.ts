@@ -32,6 +32,6 @@ export class ConfirmDialogComponent {
  */
 export class ConfirmDialogModel {
 
-  constructor(public title: string, public message: string) {
+  constructor(public title: string, public message: string, public confirm_only?: boolean) {
   }
 }
