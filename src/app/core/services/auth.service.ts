@@ -88,7 +88,22 @@ export class AuthenticationService {
     }
 
     passwordReset(email: string, token: string, password: string, confirmPassword: string): any {
-        return of(true).pipe(delay(1000));
+        const body = {
+            email,
+            token,
+            senha: password
+        };
+
+        const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this.http.post<any>(`${environment.urlBase}/users/passwordConfirmToken`, body, { headers }).pipe(
+            catchError((e) => {
+                if (e.error?.message) return throwError(() => e.error.message);
+                if (typeof e.error === 'string') return throwError(() => e.error);
+
+                return throwError(() => 'Não foi possível alterar a senha. Tente novamente mais tarde.');
+            })
+        );
     }
 
 

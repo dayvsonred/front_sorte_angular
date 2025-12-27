@@ -32,10 +32,13 @@ export class PasswordResetComponent implements OnInit {
 
   ngOnInit() {
     this.activeRoute.queryParamMap.subscribe((params: ParamMap) => {
-      this.token = params.get('token') + '';
-      this.email = params.get('email') + '';
+      const t = params.get('token');
+      const e = params.get('email');
 
-      if (!this.token || !this.email) {
+      this.token = t ? t : '';
+      this.email = e ? e : '';
+
+      if (!this.token || !this.email || !this.token.trim() || !this.email.trim()) {
         this.router.navigate(['/']);
       }
     });
@@ -52,7 +55,7 @@ export class PasswordResetComponent implements OnInit {
     const passwordConfirm = this.form.get('newPasswordConfirm')?.value;
 
     if (password !== passwordConfirm) {
-      this.notificationService.openSnackBar('Passwords do not match');
+      this.notificationService.openSnackBar('As senhas não conferem');
       return;
     }
 
@@ -61,11 +64,12 @@ export class PasswordResetComponent implements OnInit {
     this.authService.passwordReset(this.email, this.token, password, passwordConfirm)
       .subscribe(
         () => {
-          this.notificationService.openSnackBar('Your password has been changed.');
+          this.notificationService.openSnackBar('Senha alterada com sucesso.');
           this.router.navigate(['/auth/login']);
         },
         (error: any) => {
-          this.notificationService.openSnackBar(error.error);
+          const msg = error?.error || error?.message || 'Erro ao alterar a senha.';
+          this.notificationService.openSnackBar(msg);
           this.loading = false;
         }
       );
