@@ -24,6 +24,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-account-page',
   templateUrl: './account-page.component.html',
@@ -38,7 +40,9 @@ export class AccountPageComponent implements OnInit {
   constructor(private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
   }
 
 }
+
+

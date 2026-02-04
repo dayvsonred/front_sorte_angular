@@ -38,7 +38,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Faça a Diferença com Dádiva</h1>
+      <h1>Faça a Diferença com {{ appName }}</h1>
       <p>Apoie causas que transformam vidas com doações seguras e transparentes.</p>
       <button mat-raised-button color="primary" [routerLink]="['/create']">Doe Agora</button>
     </div>
@@ -199,7 +199,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Dádiva Creative Agency. All rights reserved.</p>
+    <p>© 2025 {{ appName }} Creative Agency. All rights reserved.</p>
     <div class="social-icons">
       <a href="https://facebook.com" target="_blank"><mat-icon>facebook</mat-icon></a>
       <a href="https://x.com" target="_blank"><mat-icon>close</mat-icon></a>

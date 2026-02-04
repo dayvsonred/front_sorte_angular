@@ -8,6 +8,8 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-password-reset-request',
   templateUrl: './password-reset-request.component.html',
@@ -26,7 +28,7 @@ export class PasswordResetRequestComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
 
     this.form = new UntypedFormGroup({
       email: new UntypedFormControl('', [Validators.required, Validators.email])
@@ -68,4 +70,6 @@ export class PasswordResetRequestComponent implements OnInit {
     this.router.navigate(['/']);
   }
 }
+
+
 

@@ -6,12 +6,15 @@ import { GlobalService } from 'src/app/core/services/global.service';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-complaint',
   templateUrl: './complaint.component.html',
   styleUrls: ['./complaint.component.css']
 })
 export class ComplaintComponent implements OnInit {
+  appName = APP_NAME;
   Logado = false;
   contactForm: FormGroup;
   testimonials = [
@@ -36,14 +39,14 @@ export class ComplaintComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private globalService: GlobalService,
   ) {
-    this.titleService.setTitle('Dádiva - Apoie Nossa Causa');
+    this.titleService.setTitle(APP_NAME + ' - Apoie Nossa Causa');
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]],
     });
     this.meta.addTags([
-      { name: 'description', content: 'Doe para causas que transformam vidas com a Dádiva Creative Agency.' },
+      { name: 'description', content: 'Doe para causas que transformam vidas com a ' + APP_NAME + ' Creative Agency.' },
       { name: 'keywords', content: 'doação, nonprofit, caridade, impacto social' },
     ]);
   }
@@ -75,3 +78,6 @@ export class ComplaintComponent implements OnInit {
     this.contactForm.reset();
   }
 }
+
+
+

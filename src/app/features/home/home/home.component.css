@@ -348,6 +348,14 @@ mat-icon {
   color: #163334;
 }
 
+.team-subtitle {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  color: #4c6462;
+  font-size: 16px;
+}
+
 .team {
   background: linear-gradient(180deg, #f5f5f5 0%, #eef4f1 100%);
 }
@@ -361,6 +369,8 @@ mat-icon {
 }
 
 .developer-card {
+  position: relative;
+  overflow: hidden;
   background-color: #ffffff;
   border-radius: 18px;
   padding: 24px;
@@ -368,6 +378,17 @@ mat-icon {
   border: 1px solid #e5ece9;
   box-shadow: 0 10px 24px rgba(22, 51, 52, 0.12);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.developer-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(91, 179, 110, 0.22) 0%, rgba(91, 179, 110, 0) 70%);
+  pointer-events: none;
 }
 
 .developer-card:hover {
@@ -381,7 +402,8 @@ mat-icon {
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto 16px;
-  border: 4px solid #163334;
+  border: 4px solid #ffffff;
+  outline: 3px solid #163334;
   box-shadow: 0 6px 16px rgba(22, 51, 52, 0.18);
   background-color: #f3f7f5;
 }
@@ -403,4 +425,24 @@ mat-icon {
   border-radius: 999px;
   letter-spacing: 0.3px;
   margin: 0;
+}
+
+.developer-email {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #163334;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px dashed #9bb1ae;
+  background-color: #f4f8f6;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.developer-email:hover {
+  color: #0f2526;
+  border-color: #163334;
+  background-color: #e7f1ed;
 }

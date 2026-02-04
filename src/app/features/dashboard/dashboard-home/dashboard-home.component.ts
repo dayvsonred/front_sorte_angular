@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalService } from 'src/app/core/services/global.service';
 import { environment } from 'src/environments/environment';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
@@ -36,7 +38,7 @@ export class DashboardHomeComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser();
-    this.titleService.setTitle('Dádiva - Dashboard');
+    this.titleService.setTitle(APP_NAME + ' - Dashboard');
     //this.logger.log('Dashboard loaded');
 
     this.buscarDoacoes();
@@ -70,3 +72,5 @@ export class DashboardHomeComponent implements OnInit {
       });
   }
 }
+
+

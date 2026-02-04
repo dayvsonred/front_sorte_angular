@@ -8,6 +8,8 @@ import { GlobalService } from 'src/app/core/services/global.service';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-donation-view',
   templateUrl: './donation-view.component.html',
@@ -27,7 +29,7 @@ export class DonationViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     const nomeLink = this.route.snapshot.paramMap.get('id');
 
     console.log("nomeLink .............")
@@ -60,3 +62,5 @@ fetchDonation(nomeLink: string): void {
   }
 
 }
+
+

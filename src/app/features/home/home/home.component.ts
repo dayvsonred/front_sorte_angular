@@ -8,12 +8,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { style } from '@angular/animations';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  appName = APP_NAME;
   Logado = false;
   contactForm: FormGroup;
   testimonials = [
@@ -25,8 +28,8 @@ export class HomeComponent implements OnInit {
     { title: 'Nova Campanha de Educação', excerpt: 'Lançamos uma iniciativa para apoiar escolas locais.', link: '/blog/educacao-2025' },
   ];
   teamMembers = [
-    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', image: 'assets/cmo_v1.png', style: "" },
-    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', image: 'assets/cto_v1.png', style: "" },
+    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', email: 'domains@thepuregrace.com', image: 'assets/cmo_v1.png', style: "" },
+    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', email: 'admin@thepuregrace.com', image: 'assets/cto_v1.png', style: "" },
   ];
   router: any;
 
@@ -39,14 +42,14 @@ export class HomeComponent implements OnInit {
     private globalService: GlobalService,
     private http: HttpClient
   ) {
-    this.titleService.setTitle('Dádiva - Apoie Nossa Causa');
+    this.titleService.setTitle(APP_NAME + ' - Apoie Nossa Causa');
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]],
     });
     this.meta.addTags([
-      { name: 'description', content: 'Doe para causas que transformam vidas com a Dádiva Creative Agency.' },
+      { name: 'description', content: 'Doe para causas que transformam vidas com a ' + APP_NAME + ' Creative Agency.' },
       { name: 'keywords', content: 'doação, nonprofit, caridade, impacto social' },
     ]);
   }
@@ -120,4 +123,8 @@ export class HomeComponent implements OnInit {
   }
 
 }
+
+
+
+
 

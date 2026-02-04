@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { stat } from 'fs';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-donation-list',
   templateUrl: './donation-list.component.html',
@@ -57,7 +59,7 @@ export class DonationListComponent implements OnInit {
     console.log(user);
     this.conta_nivel_data_nivel = user.conta_nivel_data_nivel;
     console.log(this.conta_nivel_data_nivel);
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     this.notificationService.openSnackBar('Customers loaded');
     this.dataSource.sort = this.sort;
     this.buscarDoacoes();
@@ -195,3 +197,5 @@ export class DonationListComponent implements OnInit {
   }
 
 }
+
+

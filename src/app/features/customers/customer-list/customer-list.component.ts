@@ -26,6 +26,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ];
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -54,7 +56,7 @@ export class CustomerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     //this.logger.log('Customers loaded');
     this.notificationService.openSnackBar('Customers loaded');
     this.dataSource.sort = this.sort;
@@ -82,3 +84,5 @@ export class CustomerListComponent implements OnInit {
   }
 
 }
+
+

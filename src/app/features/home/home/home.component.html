@@ -43,7 +43,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Faça a Diferença com Dádiva</h1>
+      <h1>A Graça que se transforma em ação.  {{ appName }}</h1>
       <p>Apoie causas que transformam vidas com doações seguras e transparentes.</p>
       <button mat-raised-button color="primary" [routerLink]="['/create/doacao']">Doe Agora</button>
     </div>
@@ -104,12 +104,13 @@
 
   <!-- Meet the Developers -->
   <section class="section team">
-    <h2 class="team-title">Conheça os Desenvolvedores</h2>
+    <h2 class="team-title">Gestão Institucional</h2>   <p class="team-subtitle">As mentes por trás da visão, do marketing e da tecnologia.</p>
     <div class="developer-grid">
       <div class="developer-card" *ngFor="let member of teamMembers">
         <img class="developer-avatar" [src]="member.image" [alt]="member.name">
         <h3 class="developer-name">{{ member.name }}</h3>
         <p class="developer-role">{{ member.role }}</p>
+        <a class="developer-email" [href]="'mailto:' + member.email">{{ member.email }}</a>
       </div>
     </div>
   </section>
@@ -218,7 +219,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Dádiva Creative Agency. All rights reserved.</p>
+    <p>© 2025 {{ appName }} Creative Agency. All rights reserved.</p>
     <div class="social-icons">
       <a href="https://facebook.com" target="_blank"><mat-icon>facebook</mat-icon></a>
       <a href="https://x.com" target="_blank"><mat-icon>close</mat-icon></a>
@@ -227,3 +228,4 @@
     </div>
   </footer>
 </div>
+

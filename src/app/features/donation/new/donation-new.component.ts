@@ -8,6 +8,8 @@ import { GlobalService } from 'src/app/core/services/global.service';
 import { Router } from '@angular/router';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-donation-new',
   templateUrl: './donation-new.component.html',
@@ -59,7 +61,7 @@ export class DonationNewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     this.notificationService.openSnackBar('Donation loaded');
     this.categories = this.globalService.getDonationCategories();
 
@@ -163,3 +165,5 @@ export class DonationNewComponent implements OnInit {
     return null;
   }
 }
+
+

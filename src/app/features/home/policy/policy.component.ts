@@ -7,12 +7,15 @@ import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-policy',
   templateUrl: './policy.component.html',
   styleUrls: ['./policy.component.css']
 })
 export class PolicyComponent implements OnInit {
+  appName = APP_NAME;
 isMobile: any;
 toggleSidebar() {
 throw new Error('Method not implemented.');
@@ -22,10 +25,10 @@ throw new Error('Method not implemented.');
     {
       id: 'terms', title: 'Termos de Uso', content: `
       <h2>Termos de Uso</h2>
-      <p>Bem-vindo à plataforma Dádiva. Ao utilizar nossa plataforma, você concorda com os seguintes termos:</p>
+      <p>Bem-vindo à plataforma ${APP_NAME}. Ao utilizar nossa plataforma, você concorda com os seguintes termos:</p>
       <ul>
         <li><strong>Elegibilidade</strong>: Usuários devem ter pelo menos 18 anos ou permissão de um responsável legal.</li>
-        <li><strong>Uso Permitido</strong>: A plataforma deve ser usada apenas para criar ou apoiar campanhas de doação legítimas.</li>
+        <li><strong>Uso Permitido</strong>: A plataforma ${APP_NAME} deve ser usada apenas para criar ou apoiar campanhas de doação legítimas.</li>
         <li><strong>Proibições</strong>: É proibido usar a plataforma para atividades ilegais, fraudulentas ou que violem direitos de terceiros.</li>
         <li><strong>Responsabilidade</strong>: Você é responsável pelo conteúdo das campanhas que cria, incluindo imagens e textos.</li>
       </ul>
@@ -91,7 +94,7 @@ throw new Error('Method not implemented.');
   activePolicy: string = 'terms'; // Default to first policy
 
   constructor(private titleService: Title, private globalService: GlobalService,  private authenticationService: AuthenticationService, private router: Router) {
-    this.titleService.setTitle('Dádiva - Políticas');
+    this.titleService.setTitle(APP_NAME + ' - Políticas');
   }
 
   selectPolicy(id: string): void {
@@ -118,3 +121,7 @@ throw new Error('Method not implemented.');
 
 
 }
+
+
+
+

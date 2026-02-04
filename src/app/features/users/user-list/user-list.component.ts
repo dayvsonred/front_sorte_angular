@@ -4,6 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { NGXLogger } from 'ngx-logger';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -18,7 +20,9 @@ export class UserListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     //this.logger.log('Users loaded');
   }
 }
+
+

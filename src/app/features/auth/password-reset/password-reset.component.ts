@@ -5,6 +5,8 @@ import { Title } from '@angular/platform-browser';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
@@ -25,7 +27,7 @@ export class PasswordResetComponent implements OnInit {
     private notificationService: NotificationService,
     private titleService: Title) {
 
-    this.titleService.setTitle('Dádiva');
+    this.titleService.setTitle(APP_NAME);
     this.hideNewPassword = true;
     this.hideNewPasswordConfirm = true;
   }
@@ -79,3 +81,5 @@ export class PasswordResetComponent implements OnInit {
     this.router.navigate(['/']);
   }
 }
+
+

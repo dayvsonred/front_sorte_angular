@@ -7,6 +7,8 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { environment } from '../../../../environments/environment';
 
 
+import { APP_NAME } from 'src/app/core/constants/branding';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -29,7 +31,7 @@ export class LoginComponent implements OnInit {
         localStorage.removeItem('access_token');
 		localStorage.removeItem('token');
         localStorage.removeItem('savedUserEmail');
-        this.titleService.setTitle('Dádiva');
+        this.titleService.setTitle(APP_NAME);
         this.authenticationService.logout();
         this.createForm();
         this.titulo = environment.nomeProjetoTitulo;
@@ -103,3 +105,5 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/auth/new-user']);
     }
 }
+
+
