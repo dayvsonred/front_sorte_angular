@@ -25,8 +25,8 @@ export class HomeComponent implements OnInit {
     { title: 'Nova Campanha de Educação', excerpt: 'Lançamos uma iniciativa para apoiar escolas locais.', link: '/blog/educacao-2025' },
   ];
   teamMembers = [
-    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', image: 'assets/cute-female-pink-jacket_151013-11568.avif', style: "" },
-    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', image: 'assets/p5.jpg', style: "width: 280px; margin: auto;" },
+    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', image: 'assets/cmo_v1.png', style: "" },
+    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', image: 'assets/cto_v1.png', style: "" },
   ];
   router: any;
 
@@ -120,3 +120,4 @@ export class HomeComponent implements OnInit {
   }
 
 }
+
