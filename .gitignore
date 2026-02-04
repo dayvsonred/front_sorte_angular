@@ -332,3 +332,18 @@ ASALocalRun/
 .angular/
 
 .codegpt
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+
+# Binários
+**/*.exe
+**/*.zip
+
+
+# Node
+**/node_modules/
