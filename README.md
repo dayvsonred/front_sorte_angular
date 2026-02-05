@@ -60,10 +60,10 @@ terraform import aws_s3_bucket.site thepuregracev1
 
 #### 2) Subir atualizacoes do site (sempre que mudar o front)
 ```powershell
-cd C:\Users\niore\Documents\projeto sorteio doacao\front_sorte_angular
+cd "C:\Users\niore\Documents\projeto sorteio doacao\front_sorte_angular"
 npm install
-npm run build
-aws s3 sync dist\front_sorte_angular\ s3://thepuregracev1 --delete
+ng build --configuration production
+aws s3 sync dist\angular-material-template\ s3://thepuregracev1 --delete
 ```
 
 #### 3) Limpar cache do CloudFront (recomendado apos deploy)
