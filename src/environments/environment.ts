@@ -11,7 +11,7 @@ export const environment = {
   serverLogLevel: NgxLoggerLevel.OFF,
   authorization: `/oauth/oauth/token`,
   login: `/login`,
-	link_creat_login: `/core/login`,
+	link_creat_login: `/users`,
 	link_creat_valid_email: `/core/valid/email`,
   link_donation_creat: `/donation`,
 	urlBase: `http://localhost:8798`,

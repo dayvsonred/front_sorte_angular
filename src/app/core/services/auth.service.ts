@@ -380,6 +380,51 @@ export class AuthenticationService {
             })
         );
     }
+
+    public sendPageVisualization(payload: {
+        page: string;
+        timestamp?: string;
+        referrer?: string;
+        device?: string;
+        language?: string;
+        ip?: string;
+        user?: string;
+    }): Observable<any> {
+        const headers = { 'Content-Type': 'application/json' };
+
+        const currentUser = this.getCurrentUser();
+        const body = {
+            page: payload.page,
+            timestamp: payload.timestamp || new Date().toISOString(),
+            referrer: payload.referrer ?? (typeof document !== 'undefined' ? document.referrer : ''),
+            device: payload.device || this.getDeviceType(),
+            language: payload.language || (typeof navigator !== 'undefined' ? navigator.language : 'pt-BR'),
+            ip: payload.ip || '',
+            user: payload.user || (currentUser?.fullName || 'Visitor')
+        };
+
+        return this.http.post<any>(
+            `https://rm0t2sapef.execute-api.us-east-1.amazonaws.com/contact/visualizations`,
+            body,
+            { headers }
+        ).pipe(
+            map((res) => {
+                console.log('Visualizacao de pagina registrada:', res);
+                return res;
+            }),
+            catchError((e) => {
+                console.error('Erro ao registrar visualizacao de pagina:', e);
+                return throwError(() => 'Erro ao registrar visualizacao de pagina.');
+            })
+        );
+    }
+
+    private getDeviceType(): string {
+        if (typeof navigator === 'undefined') return 'desktop';
+        const ua = navigator.userAgent || '';
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) return 'mobile';
+        return 'desktop';
+    }
 }
 
 

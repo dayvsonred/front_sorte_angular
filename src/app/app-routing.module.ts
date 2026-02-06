@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { GlobalService } from './core/services/global.service';
 
 const appRoutes: Routes = [
   {
@@ -75,4 +77,18 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(private router: Router, private globalService: GlobalService) {
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        const url = event.urlAfterRedirects || event.url;
+        const page = url.split('?')[0].split('#')[0] || '/home';
+        this.globalService.sendPageVisualization({ page }).subscribe({
+          error: () => {
+            // Evita quebrar a navegação caso o endpoint falhe
+          }
+        });
+      });
+  }
+}
