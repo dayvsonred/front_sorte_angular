@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -7,10 +7,9 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { CustomMaterialModule } from './custom-material/custom-material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { LoggerModule, NgxLoggerLevel  } from 'ngx-logger';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
 import { QRCodeModule } from 'angularx-qrcode';
-
 
 @NgModule({
   declarations: [
@@ -31,9 +30,12 @@ import { QRCodeModule } from 'angularx-qrcode';
     //   serverLogLevel: environment.serverLogLevel
     // })
     LoggerModule.forRoot({
-      level: NgxLoggerLevel.DEBUG, // nível de log desejado
-      // outras configurações opcionais
+      level: NgxLoggerLevel.DEBUG, // nivel de log desejado
+      // outras configuracoes opcionais
     })
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -75,7 +75,6 @@ export const MY_FORMATS = {
       provide: MAT_DATE_FORMATS,
       useValue: MY_FORMATS
     },
-    { provide: LOCALE_ID, useValue: 'en-gb' }
   ],
   declarations: [SelectCheckAllComponent]
 })

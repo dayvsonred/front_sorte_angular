@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donation-modal',
@@ -11,29 +10,33 @@ import { Router } from '@angular/router';
 })
 export class DonationModalComponent {
   donationForm: FormGroup;
+  presetAmounts = [5, 10, 25, 50, 100, 200];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DonationModalComponent>,
     private notificationService: NotificationService,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: { donationId: string, nome_link: string }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      donationId: string,
+      nome_link: string,
+      goalAmount?: number | string,
+      currentRaised?: number | string,
+      campaignTitle?: string
+    }
   ) {
     this.donationForm = this.fb.group({
-      /*amount: ['', [Validators.required, this.minAmountValidator(1)]],*/
       amount: ['', [Validators.required, this.currencyValidator, Validators.maxLength(20)]],
-      donorName: [''],
-      message: [''],
-      cpf: ['', [Validators.required]],
-      anonymouse: [false],
+      tipAmount: ['0,00', [this.currencyValidatorAllowZero, Validators.maxLength(20)]],
+      paymentMethod: ['', [Validators.required]],
+      hidePublicInfo: [false],
+      receiveUpdates: [true],
     });
   }
 
-  // Validador personalizado para o valor mínimo
   minAmountValidator(min: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
-        return null; // Deixa a validação required tratar isso
+        return null;
       }
       const cleanValue = control.value
         .replace('R$', '')
@@ -46,63 +49,44 @@ export class DonationModalComponent {
   }
 
   submitDonation(): void {
-    console.log(this.donationForm)
     if (!this.donationForm.valid) {
+      Object.values(this.donationForm.controls).forEach(control => control.markAsTouched());
       return;
     }
 
-    // Limpar o valor mascarado (remover R$, pontos e vírgulas)
-    const rawAmount = this.donationForm.get('amount')?.value
-      /*.replace('R$', '')
-      .replace('.', '')
-      .replace(',', '.')*/
-      .trim();
+    const rawAmount = (this.donationForm.get('amount')?.value || '').trim();
+    const rawTip = (this.donationForm.get('tipAmount')?.value || '').trim();
 
-    // Converte o valor monetário antes de enviar
     const rawAmountSend = this.formatCurrencyForBackend(rawAmount);
+    const rawTipSend = this.formatCurrencyForBackend(rawTip);
 
-    // Aqui você pode integrar com seu serviço de backend para processar a doação
     const donationData = {
       donationId: this.data.donationId,
       nome_link: this.data.nome_link,
-      amount: parseFloat(rawAmountSend), // Converte para número
-      donorName: this.donationForm.get('donorName')?.value,
-      message: this.donationForm.get('message')?.value,
-      cpf: this.donationForm.get('cpf')?.value,
-      anonymouse: this.donationForm.get('anonymouse')?.value,
+      amount: parseFloat(rawAmountSend),
+      tipAmount: parseFloat(rawTipSend),
+      paymentMethod: this.donationForm.get('paymentMethod')?.value,
+      hidePublicInfo: this.donationForm.get('hidePublicInfo')?.value,
+      receiveUpdates: this.donationForm.get('receiveUpdates')?.value,
       date: new Date().toISOString(),
     };
 
-    // Simulação de envio para o backend
-    console.log('Dados da doação:', donationData);
-    this.notificationService.openSnackBar('Doação realizada com sucesso!');
+    console.log('Dados da doacao:', donationData);
+    this.notificationService.openSnackBar('Doacao realizada com sucesso!');
     this.dialogRef.close(donationData);
-
-    // Fecha o modal e navega para a rota do QR Code com os dados como query params
-    this.dialogRef.close();
-    this.router.navigate([`/s2/${this.data.nome_link}/qr`], {
-      state: { donationData }
-    });
-
-
   }
-
-
-
 
   formatCurrencyInput(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
-    let value = input.value.replace(/\D/g, ''); // Remove qualquer caractere que não seja número
+    let value = input.value.replace(/\D/g, '');
 
     if (!value) {
       value = '0';
     }
 
-    // Divide o valor em reais e centavos
     const integerPart = value.slice(0, -2) || '0';
     const decimalPart = value.slice(-2).padStart(2, '0');
 
-    // Adiciona os pontos como separadores de milhar
     let formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
     if (formattedInteger.length >= 3 && formattedInteger.charAt(0) == "0") {
@@ -118,12 +102,10 @@ export class DonationModalComponent {
     const value = control.value;
     if (!value) return null;
 
-    // Verifica o formato básico
     if (!/^\d{1,3}(?:\.\d{3})*,\d{2}$/.test(value)) {
       return { invalidFormat: true };
     }
 
-    // Converte para número para validações adicionais
     const numericValue = parseFloat(value.replace(/\./g, '').replace(',', '.'));
 
     if (numericValue <= 0) {
@@ -133,16 +115,29 @@ export class DonationModalComponent {
     return null;
   }
 
-  // Adicione esta nova função para formatar o valor para o back-end
+  currencyValidatorAllowZero(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!value) return null;
+
+    if (!/^\d{1,3}(?:\.\d{3})*,\d{2}$/.test(value)) {
+      return { invalidFormat: true };
+    }
+
+    const numericValue = parseFloat(value.replace(/\./g, '').replace(',', '.'));
+
+    if (numericValue < 0) {
+      return { minValue: true };
+    }
+
+    return null;
+  }
+
   private formatCurrencyForBackend(value: string): string {
     if (!value) return '0.00';
 
-    // Remove todos os pontos (separadores de milhar)
     let numericValue = value.replace(/\./g, '');
-    // Substitui a vírgula (separador decimal) por ponto
     numericValue = numericValue.replace(',', '.');
 
-    // Garante que tem duas casas decimais
     if (!numericValue.includes('.')) {
       numericValue += '.00';
     }
@@ -150,6 +145,54 @@ export class DonationModalComponent {
     return numericValue;
   }
 
+  setPresetAmount(value: number): void {
+    this.donationForm.patchValue({ amount: this.formatNumberToCurrency(value) });
+  }
 
+  selectPaymentMethod(method: string): void {
+    this.donationForm.patchValue({ paymentMethod: method });
+  }
 
+  get progressAfterDonation(): number | null {
+    const goal = this.parseToNumber(this.data.goalAmount);
+    const current = this.parseToNumber(this.data.currentRaised);
+    const amount = this.parseToNumber(this.donationForm.get('amount')?.value);
+
+    if (!goal || goal <= 0) return null;
+    const projected = current + amount;
+    return Math.min((projected / goal) * 100, 100);
+  }
+
+  get donationAmountValue(): number {
+    return this.parseToNumber(this.donationForm.get('amount')?.value);
+  }
+
+  get tipAmountValue(): number {
+    return this.parseToNumber(this.donationForm.get('tipAmount')?.value);
+  }
+
+  get totalAmountValue(): number {
+    return this.donationAmountValue + this.tipAmountValue;
+  }
+
+  formatCurrencyDisplay(value: number): string {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value || 0);
+  }
+
+  private parseToNumber(value: any): number {
+    if (value === null || value === undefined) return 0;
+    if (typeof value === 'number') return isNaN(value) ? 0 : value;
+    const str = String(value).trim();
+    if (!str) return 0;
+    const normalized = str.replace(/\./g, '').replace(',', '.').replace(/[^\d.]/g, '');
+    const num = parseFloat(normalized);
+    return isNaN(num) ? 0 : num;
+  }
+
+  private formatNumberToCurrency(value: number): string {
+    const fixed = (value || 0).toFixed(2);
+    const parts = fixed.split('.');
+    const integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${integer},${parts[1]}`;
+  }
 }

@@ -6,7 +6,6 @@ import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { GlobalService } from 'src/app/core/services/global.service';
 import { environment } from '../../../../environments/environment';
-import { DonationModalComponent } from '../payment/donation-modal.component';
 import { DialogSimpleMessageComponent } from '../dialog-simple-message/dialog-simple-message.component';
 
 @Component({
@@ -23,9 +22,8 @@ export class ShowComponent implements OnInit {
   valor_total: any = 0;
   alcancado = 0;
   Logado = false;
-  usuario = { name: "", email: "", date_create: "" }
+  usuario = { name: "", email: "", date_create: "" };
   profileImageUrl = "";
-
 
   constructor(
     private router: Router,
@@ -35,8 +33,7 @@ export class ShowComponent implements OnInit {
     private globalService: GlobalService,
     private route: ActivatedRoute,
     private dialog: MatDialog
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     const queryParams = this.route.snapshot.queryParams;
@@ -44,7 +41,7 @@ export class ShowComponent implements OnInit {
       this.showWelcomeDialog();
     }
 
-    let logado = this.globalService.getCurrentUser();
+    const logado = this.globalService.getCurrentUser();
     if (logado != null) {
       this.Logado = true;
     }
@@ -52,7 +49,6 @@ export class ShowComponent implements OnInit {
     const nomeLink = this.route.snapshot.paramMap.get('id');
     if (nomeLink) {
       this.fetchDonation(nomeLink);
-
     }
   }
 
@@ -61,48 +57,34 @@ export class ShowComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.donation = response;
-          console.log('Doação recebida:', this.donation);
+          console.log('Doacao recebida:', this.donation);
           this.showMensagens();
           this.loadPixTotais();
           this.fetchUser(this.donation.id_user);
           this.getIMGPerfil(this.donation.id_user);
         },
         error: (error) => {
-          console.error('Erro ao buscar doação:', error);
+          console.error('Erro ao buscar doacao:', error);
         }
       });
   }
 
   openDonationModal(): void {
-    const dialogRef = this.dialog.open(DonationModalComponent, {
-      width: '80%',
-      maxWidth: '500px',
-      data: { donationId: this.donation.id, nome_link: this.donation.nome_link }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Aqui você pode atualizar a doação com os novos dados
-        console.log('Doação confirmada:', result);
+    // Redireciona para a tela funcional de pagamento (Stripe)
+    this.router.navigate(['/donate'], {
+      queryParams: {
+        campaignId: this.donation?.id
       }
     });
   }
 
   getImageUrl(imagePath: string): string {
-    return imagePath;
-    return 'https://www.abacuskids.com/wp-content/uploads/2016/12/Slider3.png';
+    if (!imagePath) return '';
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
     return `${environment.urlBase}/images/${imagePath}`;
   }
-
-  /*calculateProgress(): number {
-    if (!this.donation || !this.donation.valor || !this.donation.valor_arrecadado) {
-      return 0;
-    }
-    return Math.min((this.donation.valor_arrecadado / this.donation.valor) * 100, 100);
-  }*/
 
   calculateDaysAgo(date: string): number {
     const donationDate = new Date(date);
@@ -121,19 +103,10 @@ export class ShowComponent implements OnInit {
   }
 
   showMensagens() {
-
     this.donationOpen(this.donation.id);
     this.globalService.getDonationMensagens(this.donation.id).subscribe({
       next: (mensagens) => {
         this.mensagens = mensagens;
-        console.log('Mensagens recebidas:', mensagens);
-
-        // Soma dos valores (convertendo de string para número)
-        /*this.totalMensagensValor = mensagens.reduce((total, m) => {
-          const valorNumerico = parseFloat(m.valor);
-          return total + (isNaN(valorNumerico) ? 0 : valorNumerico);
-        }, 0);*/
-
         console.log('Mensagens recebidas:', mensagens);
         console.log('Total arrecadado nas mensagens:', this.totalMensagensValor);
       },
@@ -159,13 +132,10 @@ export class ShowComponent implements OnInit {
   }
 
   calculateProgress() {
-
-    let pt1 = this.donation.valor / this.valor_total
-    this.alcancado = 100 / pt1
+    const pt1 = this.donation.valor / this.valor_total;
+    this.alcancado = 100 / pt1;
     return this.alcancado;
   }
-
-
 
   donationOpen(id_doacao: string) {
     this.globalService.sendDonationVisualization({
@@ -194,27 +164,24 @@ export class ShowComponent implements OnInit {
       Cookies_PayPal: 'false',
       visitor_info1_live: 'false'
     }).subscribe({
-      next: (res) => {
-        console.log('Visualização enviada com sucesso');
+      next: () => {
+        console.log('Visualizacao enviada com sucesso');
       },
       error: (err) => {
         console.error('Erro:', err);
       }
     });
-
   }
 
   fetchUser(userId: string): void {
     this.globalService.getUserById(userId).subscribe({
       next: (response) => {
         this.usuario = response;
-        console.log('Usuário recebido:', response);
-
-        // Atualiza a data no formato "Usuário ativo desde mês/ano"
+        console.log('Usuario recebido:', response);
         this.usuario.date_create = this.formatDateCreate(response.date_create);
       },
       error: (error) => {
-        console.error('Erro ao buscar usuário:', error);
+        console.error('Erro ao buscar usuario:', error);
       }
     });
   }
@@ -223,7 +190,7 @@ export class ShowComponent implements OnInit {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = { month: 'long', year: 'numeric' };
     const formatted = date.toLocaleDateString('pt-BR', options);
-    return `Usuário ativo desde ${formatted}`;
+    return `Usuario ativo desde ${formatted}`;
   }
 
   getIMGPerfil(id_user: string) {
@@ -235,11 +202,9 @@ export class ShowComponent implements OnInit {
         this.notificationService.openSnackBar(err);
       }
     });
-
   }
 
   showWelcomeDialog(): void {
-    const tree = this.router.parseUrl(this.router.url);
     const baseUrl = window.location.origin + window.location.pathname;
 
     this.dialog.open(DialogSimpleMessageComponent, {
@@ -254,5 +219,4 @@ export class ShowComponent implements OnInit {
       }
     });
   }
-
 }

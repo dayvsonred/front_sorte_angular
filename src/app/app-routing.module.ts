@@ -58,6 +58,10 @@ const appRoutes: Routes = [
     path: 's2/:id',
     loadChildren: () => import('./features/campaign/campaign.module').then(m => m.CampaignModule),
   },
+  {
+    path: 'donate',
+    loadChildren: () => import('./features/donate/donate.module').then(m => m.DonateModule),
+  },
     {
     path: 'create',
     loadChildren: () => import('./features/campaign/campaign.module').then(m => m.CampaignModule),
