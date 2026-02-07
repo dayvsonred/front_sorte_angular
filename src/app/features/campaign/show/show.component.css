@@ -249,49 +249,12 @@
   gap: 10px;
 }
 
-.valor-arrecadado {
-  font-size: 2rem;
-  font-weight: 800;
-  /* color: #3f51b5; */
-  color: #4caf50; /* tom de verde positivo */
-  margin: 8px 0;
-}
 
-.valor-meta {
-  color: rgba(0, 0, 0, 0.6);
-  margin: 4px 0;
-  font-size: 1rem;
-  font-weight: 500;
-}
 
-.doadores {
-  display: flex;
-  align-items: center;
-  color: rgba(0, 0, 0, 0.6);
-  margin: 8px 0;
-}
 
-.progress-container {
-  position: relative;
-  margin: 24px 0;
-}
 
-.progress-text-overlay {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.progress-percent {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
 
-.progress-label {
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.6);
-}
 
 .donate-button {
   margin-top: 8px;
@@ -424,45 +387,12 @@
 
 
 
-.progress-percent {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #3f51b5;
-}
 
-.value-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-grow: 1;
-}
 
-.value-icon mat-icon {
-  color: white;
-  background: #3f51b5;
-  border-radius: 50%;
-  padding: 8px;
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
-}
 
-.value-amount {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
 
-.valor-arrecadado {
-  color: #4caf50;
-}
 
-.valor-meta {
-  color: #3f51b5;
-}
 
-.doadores {
-  color: #ff4081;
-}
 
 .value-label {
   font-size: 0.95rem;
@@ -511,20 +441,7 @@
   box-sizing: border-box;
 }
 
-.progress-container {
-  width: 100px;
-  height: 100px;
-  margin-left: auto; /* empurra para a direita */
-  position: relative;
-}
 
-.progress-text-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
 
 @media (max-width: 768px) {
   .progress-container {

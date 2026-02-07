@@ -356,7 +356,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   getIMGPerfil(id_user: string) {
     this.globalService.getUserProfileImage(id_user).subscribe({
       next: (url) => {
-        this.profileImageUrl = url || 'assets/default-user.png';
+        this.profileImageUrl = url || 'assets/images/user.png';
       },
       error: (err) => {
         this.notificationService.openSnackBar(err);

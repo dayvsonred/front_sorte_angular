@@ -134,7 +134,7 @@
             <!-- Painel de doacao -->
             <div fxFlex="45%" fxLayout="column" class="donate-panel">
               <h3 class="donate-title">Contribua agora</h3>
-              <p class="donate-subtitle">Escolha um valor e finalize com seguranca pela Stripe.</p>
+              <p class="donate-subtitle">Escolha um valor e finalize com seguranca.</p>
 
               <div class="amount-grid">
                 <button
@@ -163,7 +163,7 @@
                 <div class="amount-error" *ngIf="donateForm.get('amount')?.invalid">Valor minimo: 5</div>
 
                 <mat-form-field appearance="outline">
-                  <mat-label>Nome completo</mat-label>
+                  <mat-label>Nome completo / Apelido</mat-label>
                   <input matInput formControlName="name" />
                   <mat-error *ngIf="donateForm.get('name')?.invalid">Informe seu nome</mat-error>
                 </mat-form-field>
@@ -189,14 +189,13 @@
           <!-- Descrição -->
           <mat-divider class="divider"></mat-divider>
           <div class="description-section">
-            <h1 class="section-title">Sobre esta causa</h1>
             <div class="donation-text" [innerHTML]="donation.texto"></div>
           </div>
 
           <!-- Organizador  -->
           <mat-divider class="divider"></mat-divider>
           <div class="creator-section" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
-            <img mat-card-avatar [src]="profileImageUrl || 'assets/default-user.png'" alt="Criador"
+            <img mat-card-avatar [src]="profileImageUrl || 'assets/images/user.png'" alt="Criador"
               class="creator-avatar" />
             <div fxLayout="column">
               <span class="creator-label">Organizador</span>
