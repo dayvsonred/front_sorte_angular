@@ -47,8 +47,39 @@
 
             <!-- Imagem -->
             <div fxFlex="55%" class="image-container">
-              <img mat-card-image [src]="getImageUrl(donation.img_caminho)" alt="{{ donation.name }}"
-                class="donation-image" />
+              <div class="image-carousel" *ngIf="sliderImages.length; else singleImage">
+                <div class="slides">
+                  <div
+                    class="slide"
+                    *ngFor="let image of sliderImages; let i = index"
+                    [class.active]="i === activeSlide">
+                    <img [src]="image" [alt]="donation?.name || 'Imagem da campanha'" />
+                  </div>
+                </div>
+
+                <div class="carousel-dots" *ngIf="sliderImages.length > 1">
+                  <span
+                    class="dot"
+                    *ngFor="let image of sliderImages; let i = index"
+                    [class.active]="i === activeSlide"></span>
+                </div>
+
+                <div class="carousel-nav" *ngIf="sliderImages.length > 1">
+                  <button type="button" class="nav-btn" aria-label="Imagem anterior" (click)="prevSlide()">
+                    ‹
+                  </button>
+                  <button type="button" class="nav-btn" aria-label="Proxima imagem" (click)="nextSlide()">
+                    ›
+                  </button>
+                </div>
+              </div>
+              <ng-template #singleImage>
+                <div class="image-carousel">
+                  <div class="slide active">
+                    <img [src]="getImageUrl(donation.img_caminho)" [alt]="donation?.name || 'Imagem da campanha'" />
+                  </div>
+                </div>
+              </ng-template>
             </div>
 
             <!-- Painel de doacao -->

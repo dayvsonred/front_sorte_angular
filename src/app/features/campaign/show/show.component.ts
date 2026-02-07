@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { DialogSimpleMessageComponent } from '../dialog-simple-message/dialog-si
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.css']
 })
-export class ShowComponent implements OnInit {
+export class ShowComponent implements OnInit, OnDestroy {
   donation: any = null;
   mensagens: any[] = [];
   totalMensagensValor: any = 0;
@@ -27,6 +27,9 @@ export class ShowComponent implements OnInit {
   donateForm!: FormGroup;
   suggestedAmounts = [5, 10, 25, 50, 100, 200];
   isSubmitting = false;
+  sliderImages: string[] = [];
+  activeSlide = 0;
+  private autoplayId?: number;
 
   constructor(
     private notificationService: NotificationService,
@@ -61,12 +64,17 @@ export class ShowComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.stopAutoplay();
+  }
+
   fetchDonation(nomeLink: string): void {
     this.globalService.getDonationByLink(nomeLink)
       .subscribe({
         next: (response) => {
           this.donation = response;
           console.log('Doacao recebida:', this.donation);
+          this.buildSliderImages();
           this.showMensagens();
           this.loadPixTotais();
           this.fetchUser(this.donation.id_user);
@@ -88,6 +96,81 @@ export class ShowComponent implements OnInit {
       return imagePath;
     }
     return `${environment.urlBase}/images/${imagePath}`;
+  }
+
+  private buildSliderImages(): void {
+    const raw = (this.donation?.images || this.donation?.imagens || this.donation?.img_caminho) ?? [];
+    let list: any[] = [];
+    if (Array.isArray(raw)) {
+      list = raw;
+    } else if (typeof raw === 'string' && raw.trim().startsWith('[')) {
+      try {
+        const parsed = JSON.parse(raw);
+        list = Array.isArray(parsed) ? parsed : [parsed];
+      } catch {
+        list = String(raw).split(',');
+      }
+    } else {
+      list = String(raw).split(',');
+    }
+    this.sliderImages = list
+      .map((item: any) => this.normalizeImageItem(item))
+      .filter((item: string) => !!item)
+      .map((item: string) => this.getImageUrl(item))
+      .slice(0, 10);
+
+    if (this.sliderImages.length === 0 && typeof this.donation?.img_caminho === 'string' && this.donation.img_caminho.trim()) {
+      this.sliderImages = [this.getImageUrl(this.donation.img_caminho.trim())];
+    }
+
+    console.log('Slider imagens:', {
+      raw,
+      total: this.sliderImages.length,
+      first: this.sliderImages[0]
+    });
+    this.activeSlide = 0;
+    this.startAutoplay();
+  }
+
+  private normalizeImageItem(item: any): string {
+    if (!item) return '';
+    if (typeof item === 'string') return item.trim();
+    if (typeof item === 'object') {
+      return (item.url || item.path || item.img_caminho || item.image || item.caminho || item.file || '').toString().trim();
+    }
+    return '';
+  }
+
+  private startAutoplay(): void {
+    if (this.sliderImages.length <= 1) {
+      return;
+    }
+    this.stopAutoplay();
+    this.autoplayId = window.setInterval(() => {
+      this.nextSlide(true);
+    }, 3000);
+  }
+
+  private stopAutoplay(): void {
+    if (this.autoplayId) {
+      clearInterval(this.autoplayId);
+      this.autoplayId = undefined;
+    }
+  }
+
+  prevSlide(): void {
+    this.nextSlide(false, -1);
+  }
+
+  nextSlide(auto = false, direction = 1): void {
+    if (!auto) {
+      this.stopAutoplay();
+    }
+    if (this.sliderImages.length === 0) {
+      return;
+    }
+    const total = this.sliderImages.length;
+    this.activeSlide = (this.activeSlide + direction + total) % total;
   }
 
   calculateDaysAgo(date: string): number {
