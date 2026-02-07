@@ -12,6 +12,7 @@ export class PaymentMethodComponent implements AfterViewInit, OnChanges, OnDestr
   @Input() form!: FormGroup;
   @Input() stripe: Stripe | null = null;
   @Input() elements: StripeElements | null = null;
+  @Input() checkoutOnly = false;
   @Output() methodChanged = new EventEmitter<PaymentMethod>();
 
   @ViewChild('cardNumber') cardNumberRef?: ElementRef<HTMLDivElement>;
@@ -40,11 +41,13 @@ export class PaymentMethodComponent implements AfterViewInit, OnChanges, OnDestr
   }
 
   ngAfterViewInit(): void {
-    this.mountCardElements();
+    if (!this.checkoutOnly) {
+      this.mountCardElements();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['elements'] && this.elements) {
+    if (!this.checkoutOnly && changes['elements'] && this.elements) {
       this.resetStripeElements();
       this.mountCardElements();
     }
@@ -65,6 +68,9 @@ export class PaymentMethodComponent implements AfterViewInit, OnChanges, OnDestr
   }
 
   private mountCardElements(): void {
+    if (this.checkoutOnly) {
+      return;
+    }
     if (!this.elements || !this.cardNumberRef || !this.cardExpiryRef || !this.cardCvcRef) {
       return;
     }

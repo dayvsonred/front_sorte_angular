@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { loadStripe, Stripe, StripeElements, StripeCardNumberElement } from '@stripe/stripe-js';
 import { DonationFrequency, DonationSummary, PaymentMethod, SuggestedAmount } from './donate.models';
 import { PaymentsService } from 'src/app/core/services/payments.service';
 import { environment } from 'src/environments/environment';
-import { PaymentMethodComponent } from './components/payment-method/payment-method.component';
 
 @Component({
   selector: 'app-donate-page',
@@ -14,13 +12,8 @@ import { PaymentMethodComponent } from './components/payment-method/payment-meth
 })
 export class DonatePageComponent implements OnInit {
   form!: FormGroup;
-  stripe: Stripe | null = null;
-  elements: StripeElements | null = null;
   isSubmitting = false;
   campaignId = '';
-  stripeStatusMessage = '';
-
-  @ViewChild(PaymentMethodComponent) paymentMethodComponent?: PaymentMethodComponent;
   suggestedAmounts: SuggestedAmount[] = [
     { value: 5 },
     { value: 10 },
@@ -50,8 +43,8 @@ export class DonatePageComponent implements OnInit {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         cardName: [''],
-        country: ['Brasil', Validators.required],
-        postalCode: ['', Validators.required],
+        country: ['Brasil'],
+        postalCode: [''],
         saveCard: [false]
       })
     });
@@ -68,11 +61,8 @@ export class DonatePageComponent implements OnInit {
       || '';
 
     console.log('DonatePage init:', {
-      campaignId: this.campaignId,
-      hasPublishableKey: !!environment.stripePublishableKey && !environment.stripePublishableKey.includes('SUBSTITUIR')
+      campaignId: this.campaignId
     });
-
-    this.initStripe();
   }
 
   constructor(
@@ -123,11 +113,6 @@ export class DonatePageComponent implements OnInit {
       console.warn('CampaignId ausente');
       return;
     }
-    if (!this.stripe || !this.elements) {
-      alert('Stripe nao inicializado. Configure stripePublishableKey no environment.');
-      console.warn('Stripe nao inicializado');
-      return;
-    }
 
     const email = this.form.get('card.email')?.value || '';
     const billingName = this.form.get('card.cardName')?.value
@@ -135,49 +120,34 @@ export class DonatePageComponent implements OnInit {
     const total = this.summary.total;
 
     this.isSubmitting = true;
-    this.paymentsService.createDonation({
+    const currentUrl = new URL(window.location.href);
+    const successUrl = new URL(currentUrl.toString());
+    const cancelUrl = new URL(currentUrl.toString());
+    successUrl.searchParams.set('status', 'success');
+    cancelUrl.searchParams.set('status', 'cancel');
+
+    this.paymentsService.createCheckoutSession({
       campaignId: this.campaignId,
       amount: total.toFixed(2),
       currency: 'BRL',
+      successUrl: successUrl.toString(),
+      cancelUrl: cancelUrl.toString(),
       donor: {
-        name: billingName,
-        email
+        name: billingName || 'Doador',
+        email: email || 'doador@exemplo.com'
       }
     }).subscribe({
-      next: (donation) => {
-        this.paymentsService.createPaymentIntent({ donationId: donation.donationId }).subscribe({
-          next: async (intent) => {
-            const cardElement = this.paymentMethodComponent?.cardNumberElement as StripeCardNumberElement | undefined;
-            if (!cardElement) {
-              alert('Cartao nao inicializado.');
-              this.isSubmitting = false;
-              return;
-            }
-            const result = await this.stripe!.confirmCardPayment(intent.client_secret, {
-              payment_method: {
-                card: cardElement,
-                billing_details: {
-                  name: billingName,
-                  email
-                }
-              }
-            });
-            this.isSubmitting = false;
-            if (result.error) {
-              alert(result.error.message || 'Erro ao processar pagamento.');
-              return;
-            }
-            alert('Pagamento realizado com sucesso!');
-          },
-          error: () => {
-            this.isSubmitting = false;
-            alert('Erro ao criar pagamento.');
-          }
-        });
+      next: (session) => {
+        this.isSubmitting = false;
+        if (!session.url) {
+          alert('Checkout indisponivel.');
+          return;
+        }
+        window.location.href = session.url;
       },
       error: () => {
         this.isSubmitting = false;
-        alert('Erro ao criar doacao.');
+        alert('Erro ao iniciar checkout.');
       }
     });
   }
@@ -198,45 +168,7 @@ export class DonatePageComponent implements OnInit {
     });
   }
 
-  private async initStripe(): Promise<void> {
-    if (!environment.stripePublishableKey || environment.stripePublishableKey.includes('SUBSTITUIR')) {
-      this.stripeStatusMessage = 'Stripe key ausente ou placeholder.';
-      console.warn('Stripe publishable key ausente ou placeholder.', environment.stripePublishableKey);
-      return;
-    }
-
-    if (environment.stripePublishableKey.startsWith('pk_live') && window.location.protocol !== 'https:') {
-      this.stripeStatusMessage = 'Chave LIVE exige HTTPS. Use pk_test no localhost.';
-      console.warn('Stripe live key em HTTP. Use HTTPS ou pk_test.');
-      return;
-    }
-
-    this.stripe = await loadStripe(environment.stripePublishableKey, { locale: 'pt-BR' });
-    if (!this.stripe) {
-      this.stripeStatusMessage = 'Stripe nao inicializado (loadStripe retornou null).';
-      console.warn('Stripe nao inicializado: loadStripe retornou null');
-      return;
-    }
-    this.stripeStatusMessage = '';
-
-    this.elements = this.stripe.elements({
-      appearance: {
-        theme: 'stripe',
-        variables: {
-          colorPrimary: '#1a4235',
-          colorText: '#1d2939',
-          borderRadius: '12px'
-        }
-      }
-    });
-    console.log('Stripe inicializado:', {
-      stripe: !!this.stripe,
-      elements: !!this.elements,
-      publishableKey: environment.stripePublishableKey ? 'ok' : 'missing'
-    });
-  }
-
   get stripeReady(): boolean {
-    return !!this.stripe && !!this.elements;
+    return false;
   }
 }

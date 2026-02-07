@@ -31,45 +31,51 @@
       </mat-form-field>
     </div>
 
-    <div class="stripe-field">
-      <label>Numero do cartao</label>
-      <div class="stripe-input" #cardNumber></div>
-    </div>
-    <div class="card-error" *ngIf="cardError">{{ cardError }}</div>
-
-    <div class="field-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Nome no cartao</mat-label>
-        <input matInput formControlName="cardName" autocomplete="off" />
-      </mat-form-field>
+    <div class="checkout-note" *ngIf="checkoutOnly">
+      Voce sera redirecionado para a Stripe para concluir o pagamento com seguranca.
     </div>
 
-    <div class="field-row three-cols">
+    <div *ngIf="!checkoutOnly">
       <div class="stripe-field">
-        <label>MM / AA</label>
-        <div class="stripe-input" #cardExpiry></div>
+        <label>Numero do cartao</label>
+        <div class="stripe-input" #cardNumber></div>
       </div>
-      <div class="stripe-field">
-        <label>CVV</label>
-        <div class="stripe-input" #cardCvc></div>
+      <div class="card-error" *ngIf="cardError">{{ cardError }}</div>
+
+      <div class="field-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome no cartao</mat-label>
+          <input matInput formControlName="cardName" autocomplete="off" />
+        </mat-form-field>
       </div>
+
+      <div class="field-row three-cols">
+        <div class="stripe-field">
+          <label>MM / AA</label>
+          <div class="stripe-input" #cardExpiry></div>
+        </div>
+        <div class="stripe-field">
+          <label>CVV</label>
+          <div class="stripe-input" #cardCvc></div>
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Pais</mat-label>
+          <mat-select formControlName="country">
+            <mat-option value="Brasil">Brasil</mat-option>
+            <mat-option value="Portugal">Portugal</mat-option>
+            <mat-option value="EUA">EUA</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <mat-form-field appearance="outline">
-        <mat-label>Pais</mat-label>
-        <mat-select formControlName="country">
-          <mat-option value="Brasil">Brasil</mat-option>
-          <mat-option value="Portugal">Portugal</mat-option>
-          <mat-option value="EUA">EUA</mat-option>
-        </mat-select>
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="postalCode" autocomplete="off" />
       </mat-form-field>
+
+      <mat-checkbox formControlName="saveCard">
+        Salvar cartao para doacoes futuras
+      </mat-checkbox>
     </div>
-
-    <mat-form-field appearance="outline">
-      <mat-label>CEP</mat-label>
-      <input matInput formControlName="postalCode" autocomplete="off" />
-    </mat-form-field>
-
-    <mat-checkbox formControlName="saveCard">
-      Salvar cartao para doacoes futuras
-    </mat-checkbox>
   </div>
 </section>

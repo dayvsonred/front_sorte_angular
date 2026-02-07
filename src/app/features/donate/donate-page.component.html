@@ -47,14 +47,9 @@
 
     <mat-divider></mat-divider>
 
-    <div class="stripe-warning" *ngIf="!stripeReady">
-      {{ stripeStatusMessage || 'Stripe nao inicializado. Verifique a chave publishable e se o stripe.js foi carregado.' }}
-    </div>
-
     <app-payment-method
       [form]="form"
-      [stripe]="stripe"
-      [elements]="elements"
+      [checkoutOnly]="true"
       (methodChanged)="onPaymentMethodChange($event)">
     </app-payment-method>
 
