@@ -224,6 +224,28 @@ export class ShowComponent implements OnInit, OnDestroy {
     return this.alcancado;
   }
 
+  get collectedAmount(): number {
+    return Number(this.valor_total || 0);
+  }
+
+  get goalAmount(): number {
+    return Number(this.donation?.valor || 0);
+  }
+
+  get donorsCount(): number {
+    return Number(this.total_doadores || 0);
+  }
+
+  get progressPercent(): number {
+    if (!this.goalAmount) return 0;
+    const pct = (this.collectedAmount / this.goalAmount) * 100;
+    return Math.max(0, Math.min(100, Math.round(pct)));
+  }
+
+  get missingAmount(): number {
+    return Math.max(0, this.goalAmount - this.collectedAmount);
+  }
+
   onAmountSelected(amount: number): void {
     this.donateForm.patchValue({ amount });
   }

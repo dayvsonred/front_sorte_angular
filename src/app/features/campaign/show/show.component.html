@@ -43,6 +43,55 @@
         </mat-card-header>
 
         <mat-card-content>
+          <section class="stats-block" aria-label="Estatisticas da campanha" style="margin-bottom: 10px;">
+            <!-- <h3 class="stats-title">Campaign Stats</h3> -->
+            <div class="stats-grid">
+              <mat-card class="stat-card primary">
+                <div class="stat-label">
+                  <mat-icon aria-hidden="true">trending_up</mat-icon>
+                  Arrecadado
+                </div>
+                <div class="stat-value">
+                  {{ collectedAmount | currency:'BRL':'symbol':'1.2-2' }}
+                </div>
+                <div class="stat-helper" *ngIf="collectedAmount === 0">Seja o primeiro a doar</div>
+              </mat-card>
+
+              <mat-card class="stat-card">
+                <div class="stat-label">
+                  <mat-icon aria-hidden="true">flag</mat-icon>
+                  Meta
+                </div>
+                <div class="stat-value">
+                  {{ goalAmount | currency:'BRL':'symbol':'1.2-2' }}
+                </div>
+              </mat-card>
+
+              <mat-card class="stat-card">
+                <div class="stat-label">
+                  <mat-icon aria-hidden="true">people</mat-icon>
+                  Apoiadores
+                </div>
+                <div class="stat-value">
+                  {{ donorsCount }}
+                </div>
+                <div class="stat-helper" *ngIf="donorsCount === 0">Nenhum doador ainda</div>
+              </mat-card>
+            </div>
+
+            <div class="stats-progress">
+              <mat-progress-bar
+                [value]="progressPercent"
+                color="primary"
+                aria-label="Progresso da campanha">
+              </mat-progress-bar>
+              <div class="progress-meta">
+                <span>{{ progressPercent }}% atingido</span>
+                <span>Faltam {{ missingAmount | currency:'BRL':'symbol':'1.2-2' }}</span>
+              </div>
+            </div>
+          </section>
+
           <div fxLayout="row" fxLayoutGap="24px" fxLayout.lt-md="column">
 
             <!-- Imagem -->
@@ -136,54 +185,11 @@
             </div>
           </div>
 
-          <div class="progress-section" fxLayout="column" fxLayoutGap="16px">
-
-            <!-- Linha: Arrecadado + Grafico -->
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-md="column" class="linha-superior">
-              <!-- Valor arrecadado -->
-              <div fxFlex="80" class="value-item">
-                <div class="value-icon"><mat-icon>trending_up</mat-icon></div>
-                <div>
-                  <div class="value-amount valor-arrecadado">
-                    {{ valor_total| currency:'BRL':'symbol':'1.2-2' }}
-                  </div>
-                  <div class="value-label">Valor Arrecadado</div>
-                </div>
-                <!-- Grafico -->
-                <!-- <div class="progress-container">
-                  <mat-progress-spinner mode="determinate" [value]="calculateProgress()" diameter="100"
-                    color="accent">
-                  </mat-progress-spinner>
-                  <div class="progress-text-overlay">
-                    <span class="progress-percent">{{ calculateProgress() | number:'1.0-0' }}%</span>
-                    <span class="progress-label">% da meta alcancada</span>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-
-            <!-- Meta -->
-            <div class="value-item">
-              <div class="value-icon"><mat-icon>flag</mat-icon></div>
-              <div>
-                <div class="value-amount valor-meta">{{ donation.valor | currency:'BRL':'symbol':'1.2-2' }}</div>
-                <div class="value-label">Meta da Campanha</div>
-              </div>
-            </div>
-
-            <!-- Doadores -->
-            <div class="value-item">
-              <div class="value-icon"><mat-icon>people</mat-icon></div>
-              <div>
-                <div class="value-amount doadores">{{ total_doadores || 0 }}</div>
-                <div class="value-label">Pessoas ja doaram</div>
-              </div>
-            </div>
-          </div>
+          
           <!-- Descrição -->
           <mat-divider class="divider"></mat-divider>
           <div class="description-section">
-            <h3 class="section-title">Sobre esta causa</h3>
+            <h1 class="section-title">Sobre esta causa</h1>
             <div class="donation-text" [innerHTML]="donation.texto"></div>
           </div>
 
