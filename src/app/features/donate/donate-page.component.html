@@ -55,9 +55,7 @@
       [form]="form"
       [stripe]="stripe"
       [elements]="elements"
-      [walletAvailable]="walletAvailable"
-      (methodChanged)="onPaymentMethodChange($event)"
-      (walletClick)="startWalletPayment()">
+      (methodChanged)="onPaymentMethodChange($event)">
     </app-payment-method>
 
     <section class="privacy-block">

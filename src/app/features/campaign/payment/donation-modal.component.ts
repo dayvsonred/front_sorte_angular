@@ -27,7 +27,7 @@ export class DonationModalComponent {
     this.donationForm = this.fb.group({
       amount: ['', [Validators.required, this.currencyValidator, Validators.maxLength(20)]],
       tipAmount: ['0,00', [this.currencyValidatorAllowZero, Validators.maxLength(20)]],
-      paymentMethod: ['', [Validators.required]],
+      paymentMethod: ['card', [Validators.required]],
       hidePublicInfo: [false],
       receiveUpdates: [true],
     });

@@ -16,11 +16,8 @@ export class DonatePageComponent implements OnInit {
   form!: FormGroup;
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
-  paymentRequest: any = null;
-  walletAvailable = false;
   isSubmitting = false;
   campaignId = '';
-  private walletClientSecret = '';
   stripeStatusMessage = '';
 
   @ViewChild(PaymentMethodComponent) paymentMethodComponent?: PaymentMethodComponent;
@@ -52,6 +49,7 @@ export class DonatePageComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
+        cardName: [''],
         country: ['Brasil', Validators.required],
         postalCode: ['', Validators.required],
         saveCard: [false]
@@ -131,13 +129,9 @@ export class DonatePageComponent implements OnInit {
       return;
     }
 
-    if (this.form.get('paymentMethod')?.value === 'google_pay') {
-      this.startWalletPayment();
-      return;
-    }
-
     const email = this.form.get('card.email')?.value || '';
-    const name = `${this.form.get('card.firstName')?.value || ''} ${this.form.get('card.lastName')?.value || ''}`.trim();
+    const billingName = this.form.get('card.cardName')?.value
+      || `${this.form.get('card.firstName')?.value || ''} ${this.form.get('card.lastName')?.value || ''}`.trim();
     const total = this.summary.total;
 
     this.isSubmitting = true;
@@ -146,7 +140,7 @@ export class DonatePageComponent implements OnInit {
       amount: total.toFixed(2),
       currency: 'BRL',
       donor: {
-        name,
+        name: billingName,
         email
       }
     }).subscribe({
@@ -163,7 +157,7 @@ export class DonatePageComponent implements OnInit {
               payment_method: {
                 card: cardElement,
                 billing_details: {
-                  name,
+                  name: billingName,
                   email
                 }
               }
@@ -235,92 +229,10 @@ export class DonatePageComponent implements OnInit {
         }
       }
     });
-
-    const total = this.summary.total || 0;
-    this.paymentRequest = this.stripe.paymentRequest({
-      country: 'BR',
-      currency: 'brl',
-      total: { label: 'Doacao', amount: Math.round(total * 100) },
-      requestPayerName: true,
-      requestPayerEmail: true
-    });
-
-    const result = await this.paymentRequest.canMakePayment();
-    this.walletAvailable = !!result;
     console.log('Stripe inicializado:', {
       stripe: !!this.stripe,
       elements: !!this.elements,
-      walletAvailable: this.walletAvailable,
       publishableKey: environment.stripePublishableKey ? 'ok' : 'missing'
-    });
-
-    this.paymentRequest.on('paymentmethod', async (ev: any) => {
-      if (!this.walletClientSecret) {
-        ev.complete('fail');
-        return;
-      }
-      const { error } = await this.stripe!.confirmCardPayment(this.walletClientSecret, {
-        payment_method: ev.paymentMethod.id
-      }, { handleActions: false });
-
-      if (error) {
-        ev.complete('fail');
-        this.isSubmitting = false;
-        alert(error.message || 'Pagamento falhou.');
-        return;
-      }
-      ev.complete('success');
-      this.isSubmitting = false;
-      alert('Pagamento realizado com sucesso!');
-    });
-
-    this.form.valueChanges.subscribe(() => {
-      if (this.paymentRequest) {
-        const updatedTotal = this.summary.total || 0;
-        this.paymentRequest.update({
-          total: { label: 'Doacao', amount: Math.round(updatedTotal * 100) }
-        });
-      }
-    });
-  }
-
-  async startWalletPayment(): Promise<void> {
-    if (!this.paymentRequest || !this.walletAvailable || !this.stripe) {
-      alert('Carteira digital indisponivel.');
-      return;
-    }
-    if (!this.campaignId) {
-      alert('CampaignId nao informado. Use /donate?campaignId=SEU_ID');
-      return;
-    }
-
-    const email = this.form.get('card.email')?.value || '';
-    const name = `${this.form.get('card.firstName')?.value || ''} ${this.form.get('card.lastName')?.value || ''}`.trim();
-    const total = this.summary.total || 0;
-
-    this.isSubmitting = true;
-    this.paymentsService.createDonation({
-      campaignId: this.campaignId,
-      amount: total.toFixed(2),
-      currency: 'BRL',
-      donor: { name: name || 'Doador', email: email || 'doador@exemplo.com' }
-    }).subscribe({
-      next: (donation) => {
-        this.paymentsService.createPaymentIntent({ donationId: donation.donationId }).subscribe({
-          next: async (intent) => {
-            this.walletClientSecret = intent.client_secret;
-            this.paymentRequest.show();
-          },
-          error: () => {
-            this.isSubmitting = false;
-            alert('Erro ao criar pagamento.');
-          }
-        });
-      },
-      error: () => {
-        this.isSubmitting = false;
-        alert('Erro ao criar doacao.');
-      }
     });
   }
 

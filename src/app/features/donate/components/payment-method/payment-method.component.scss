@@ -2,32 +2,33 @@
   padding: 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .method-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .method-card {
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: 14px;
+  padding: 16px 18px;
   font-weight: 600;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d0d5dd;
   background: #ffffff;
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .method-card.selected {
   border-color: #1a4235;
-  box-shadow: 0 8px 18px rgba(26, 66, 53, 0.12);
+  box-shadow: 0 8px 18px rgba(26, 66, 53, 0.1);
+  background: #f8fffb;
 }
 
 .radio {
@@ -73,14 +74,15 @@
 .card-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
-  padding: 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  gap: 14px;
+  margin-top: 4px;
+  padding: 16px;
+  border: 1px solid #d0d5dd;
+  border-radius: 16px;
   background: #ffffff;
   position: relative;
   z-index: 1;
+  isolation: isolate;
 }
 
 .field-row {
@@ -112,12 +114,14 @@
   border-radius: 12px;
   padding: 12px 14px;
   background: #ffffff;
-  min-height: 44px;
+  min-height: 48px;
   display: flex;
   align-items: center;
   pointer-events: auto;
   position: relative;
   z-index: 2;
+  cursor: text;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-form * {
@@ -126,6 +130,24 @@
 
 ::ng-deep .stripe-input .StripeElement {
   width: 100%;
+}
+
+::ng-deep .stripe-input .StripeElement--focus {
+  outline: none;
+}
+
+::ng-deep .stripe-input .StripeElement--invalid {
+  border-color: transparent;
+}
+
+.stripe-input.is-focused {
+  border-color: #1a4235;
+  box-shadow: 0 0 0 3px rgba(26, 66, 53, 0.15);
+}
+
+.stripe-input.is-invalid {
+  border-color: #d14343;
+  box-shadow: 0 0 0 3px rgba(209, 67, 67, 0.12);
 }
 
 .card-error {

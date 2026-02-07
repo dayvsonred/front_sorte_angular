@@ -1,16 +1,6 @@
 <section class="payment-section">
-  <h3>Formas de pagamento</h3>
+  <h3>Forma de pagamento</h3>
   <div class="method-list">
-    <button
-      type="button"
-      class="method-card"
-      [class.selected]="form.get('paymentMethod')?.value === 'google_pay'"
-      (click)="selectMethod('google_pay')"
-      *ngIf="walletAvailable">
-      <span class="radio"></span>
-      <span class="method-label">Google Pay</span>
-      <span class="brand-pill">G Pay</span>
-    </button>
     <button
       type="button"
       class="method-card"
@@ -19,15 +9,6 @@
       <span class="radio"></span>
       <span class="method-label">Credito ou debito</span>
     </button>
-  </div>
-
-  <div class="wallet-block" *ngIf="form.get('paymentMethod')?.value === 'google_pay'">
-    <button mat-raised-button color="primary" class="wallet-button" (click)="walletClick.emit()" [disabled]="!walletAvailable">
-      Pagar com carteira digital
-    </button>
-    <p class="wallet-note" *ngIf="!walletAvailable">
-      Carteira digital indisponivel neste dispositivo.
-    </p>
   </div>
 
   <div class="card-form" *ngIf="form.get('paymentMethod')?.value === 'card'" [formGroup]="cardGroup">
@@ -56,9 +37,16 @@
     </div>
     <div class="card-error" *ngIf="cardError">{{ cardError }}</div>
 
+    <div class="field-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome no cartao</mat-label>
+        <input matInput formControlName="cardName" autocomplete="off" />
+      </mat-form-field>
+    </div>
+
     <div class="field-row three-cols">
       <div class="stripe-field">
-        <label>Validade</label>
+        <label>MM / AA</label>
         <div class="stripe-input" #cardExpiry></div>
       </div>
       <div class="stripe-field">

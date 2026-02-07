@@ -54,20 +54,6 @@
           <button
             type="button"
             class="payment-option"
-            [class.active]="donationForm.get('paymentMethod')?.value === 'google_pay'"
-            (click)="selectPaymentMethod('google_pay')">
-            Google Pay
-          </button>
-          <button
-            type="button"
-            class="payment-option"
-            [class.active]="donationForm.get('paymentMethod')?.value === 'apple_pay'"
-            (click)="selectPaymentMethod('apple_pay')">
-            Apple Pay
-          </button>
-          <button
-            type="button"
-            class="payment-option"
             [class.active]="donationForm.get('paymentMethod')?.value === 'card'"
             (click)="selectPaymentMethod('card')">
             Cartao de credito

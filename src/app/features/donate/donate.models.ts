@@ -1,5 +1,5 @@
 export type DonationFrequency = 'once' | 'monthly';
-export type PaymentMethod = 'google_pay' | 'card';
+export type PaymentMethod = 'card';
 
 export interface DonationSummary {
   donation: number;
