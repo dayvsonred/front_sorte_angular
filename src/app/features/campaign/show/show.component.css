@@ -81,25 +81,87 @@
 }
 
 .amount-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .amount-chip {
-  border: 1px solid #d0d5dd;
+  border: 1px solid #c0c7d1;
   border-radius: 12px;
-  padding: 8px 10px;
+  padding: 8px 14px;
   background: #f8fafc;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.95rem;
   cursor: pointer;
+  position: relative;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .amount-chip:hover {
   border-color: #1a4235;
   background: #f0fdf4;
+}
+
+.amount-badge {
+  position: absolute;
+  left: 8px;
+  bottom: -18px;
+  background: #b9fbc0;
+  color: #1b5e20;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.amount-input {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  border: 1px solid #c0c7d1;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: #ffffff;
+  gap: 8px;
+}
+
+.amount-currency {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  color: #1f2a44;
+  font-weight: 700;
+}
+
+.amount-symbol {
+  font-size: 18px;
+}
+
+.amount-code {
+  font-size: 11px;
+  color: #667085;
+  letter-spacing: 0.3px;
+}
+
+.amount-value {
+  border: none;
+  outline: none;
+  font-size: 32px;
+  font-weight: 800;
+  text-align: right;
+  color: #101828;
+  background: transparent;
+  width: 100%;
+}
+
+.amount-error {
+  font-size: 12px;
+  color: #d14343;
+  margin-top: -6px;
 }
 
 .donate-form {
@@ -330,8 +392,11 @@
 }
 
 @media (max-width: 900px) {
-  .amount-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .amount-input {
+    grid-template-columns: 60px 1fr;
+  }
+  .amount-value {
+    font-size: 26px;
   }
 }
 

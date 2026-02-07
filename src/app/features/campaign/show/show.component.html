@@ -63,15 +63,24 @@
                   *ngFor="let amount of suggestedAmounts"
                   (click)="onAmountSelected(amount)">
                   {{ amount | currency:'BRL':'symbol':'1.0-0':'pt-BR' }}
+                  <span class="amount-badge" *ngIf="amount === 10">sugerido</span>
                 </button>
               </div>
 
               <form [formGroup]="donateForm" class="donate-form" autocomplete="off">
-                <mat-form-field appearance="outline">
-                  <mat-label>Valor (R$)</mat-label>
-                  <input matInput type="number" formControlName="amount" min="5" />
-                  <mat-error *ngIf="donateForm.get('amount')?.invalid">Valor minimo: 5</mat-error>
-                </mat-form-field>
+                <div class="amount-input">
+                  <div class="amount-currency">
+                    <span class="amount-symbol">R$</span>
+                    <span class="amount-code">BRL</span>
+                  </div>
+                  <input
+                    class="amount-value"
+                    type="number"
+                    min="5"
+                    formControlName="amount"
+                    placeholder="0,00" />
+                </div>
+                <div class="amount-error" *ngIf="donateForm.get('amount')?.invalid">Valor minimo: 5</div>
 
                 <mat-form-field appearance="outline">
                   <mat-label>Nome completo</mat-label>
