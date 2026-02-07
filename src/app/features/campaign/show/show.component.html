@@ -43,74 +43,103 @@
         </mat-card-header>
 
         <mat-card-content>
-          <div fxLayout="row" fxLayoutGap="16px" fxLayout.lt-md="column">
+          <div fxLayout="row" fxLayoutGap="24px" fxLayout.lt-md="column">
 
             <!-- Imagem -->
-            <div fxFlex="50%" class="image-container">
+            <div fxFlex="55%" class="image-container">
               <img mat-card-image [src]="getImageUrl(donation.img_caminho)" alt="{{ donation.name }}"
                 class="donation-image" />
             </div>
 
-            <!-- Detalhes da doação -->
-            <div fxFlex="50%" fxLayout="column">
-              <div class="progress-section" fxLayout="column" fxLayoutGap="16px">
+            <!-- Painel de doacao -->
+            <div fxFlex="45%" fxLayout="column" class="donate-panel">
+              <h3 class="donate-title">Contribua agora</h3>
+              <p class="donate-subtitle">Escolha um valor e finalize com seguranca pela Stripe.</p>
 
-                <!-- Linha: Arrecadado + Gráfico -->
-                <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-md="column" class="linha-superior">
-                  <!-- Valor arrecadado -->
-                  <div fxFlex="80" class="value-item">
-                    <div class="value-icon"><mat-icon>trending_up</mat-icon></div>
-                    <div>
-                      <div class="value-amount valor-arrecadado">
-                        {{ valor_total| currency:'BRL':'symbol':'1.2-2' }}
-                      </div>
-                      <div class="value-label">Valor Arrecadado</div>
-                    </div>
-                    <!-- Gráfico -->
-                    <!-- <div class="progress-container">
-                      <mat-progress-spinner mode="determinate" [value]="calculateProgress()" diameter="100"
-                        color="accent">
-                      </mat-progress-spinner>
-                      <div class="progress-text-overlay">
-                        <span class="progress-percent">{{ calculateProgress() | number:'1.0-0' }}%</span>
-                        <span class="progress-label">% da meta alcançada</span>
-                      </div>
-                    </div> -->
-                  </div>
+              <div class="amount-grid">
+                <button
+                  type="button"
+                  class="amount-chip"
+                  *ngFor="let amount of suggestedAmounts"
+                  (click)="onAmountSelected(amount)">
+                  {{ amount | currency:'BRL':'symbol':'1.0-0':'pt-BR' }}
+                </button>
+              </div>
 
-                </div>
+              <form [formGroup]="donateForm" class="donate-form" autocomplete="off">
+                <mat-form-field appearance="outline">
+                  <mat-label>Valor (R$)</mat-label>
+                  <input matInput type="number" formControlName="amount" min="5" />
+                  <mat-error *ngIf="donateForm.get('amount')?.invalid">Valor minimo: 5</mat-error>
+                </mat-form-field>
 
-                <!-- Meta -->
-                <div class="value-item">
-                  <div class="value-icon"><mat-icon>flag</mat-icon></div>
-                  <div>
-                    <div class="value-amount valor-meta">{{ donation.valor | currency:'BRL':'symbol':'1.2-2' }}</div>
-                    <div class="value-label">Meta da Campanha</div>
-                  </div>
-                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome completo</mat-label>
+                  <input matInput formControlName="name" />
+                  <mat-error *ngIf="donateForm.get('name')?.invalid">Informe seu nome</mat-error>
+                </mat-form-field>
 
-                <!-- Doadores -->
-                <div class="value-item">
-                  <div class="value-icon"><mat-icon>people</mat-icon></div>
-                  <div>
-                    <div class="value-amount doadores">{{ total_doadores || 0 }}</div>
-                    <div class="value-label">Pessoas já doaram</div>
-                  </div>
-                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" />
+                  <mat-error *ngIf="donateForm.get('email')?.invalid">Email invalido</mat-error>
+                </mat-form-field>
 
-                <!-- Botão de doar -->
                 <div class="button-row">
-                  <button mat-raised-button color="accent" class="donate-button" aria-label="Doar Agora"
-                    (click)="openDonationModal()">
+                  <button mat-raised-button color="primary" class="donate-button" aria-label="Doar Agora"
+                    (click)="openDonationModal()" [disabled]="isSubmitting">
                     <mat-icon>favorite</mat-icon>
                     Doar Agora
                   </button>
                 </div>
-
-              </div>
+              </form>
             </div>
           </div>
 
+          <div class="progress-section" fxLayout="column" fxLayoutGap="16px">
+
+            <!-- Linha: Arrecadado + Grafico -->
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayout.lt-md="column" class="linha-superior">
+              <!-- Valor arrecadado -->
+              <div fxFlex="80" class="value-item">
+                <div class="value-icon"><mat-icon>trending_up</mat-icon></div>
+                <div>
+                  <div class="value-amount valor-arrecadado">
+                    {{ valor_total| currency:'BRL':'symbol':'1.2-2' }}
+                  </div>
+                  <div class="value-label">Valor Arrecadado</div>
+                </div>
+                <!-- Grafico -->
+                <!-- <div class="progress-container">
+                  <mat-progress-spinner mode="determinate" [value]="calculateProgress()" diameter="100"
+                    color="accent">
+                  </mat-progress-spinner>
+                  <div class="progress-text-overlay">
+                    <span class="progress-percent">{{ calculateProgress() | number:'1.0-0' }}%</span>
+                    <span class="progress-label">% da meta alcancada</span>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+
+            <!-- Meta -->
+            <div class="value-item">
+              <div class="value-icon"><mat-icon>flag</mat-icon></div>
+              <div>
+                <div class="value-amount valor-meta">{{ donation.valor | currency:'BRL':'symbol':'1.2-2' }}</div>
+                <div class="value-label">Meta da Campanha</div>
+              </div>
+            </div>
+
+            <!-- Doadores -->
+            <div class="value-item">
+              <div class="value-icon"><mat-icon>people</mat-icon></div>
+              <div>
+                <div class="value-amount doadores">{{ total_doadores || 0 }}</div>
+                <div class="value-label">Pessoas ja doaram</div>
+              </div>
+            </div>
+          </div>
           <!-- Descrição -->
           <mat-divider class="divider"></mat-divider>
           <div class="description-section">

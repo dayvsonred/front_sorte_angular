@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { GlobalService } from 'src/app/core/services/global.service';
+import { PaymentsService } from 'src/app/core/services/payments.service';
 import { environment } from '../../../../environments/environment';
 import { DialogSimpleMessageComponent } from '../dialog-simple-message/dialog-simple-message.component';
 
@@ -24,18 +24,27 @@ export class ShowComponent implements OnInit {
   Logado = false;
   usuario = { name: "", email: "", date_create: "" };
   profileImageUrl = "";
+  donateForm!: FormGroup;
+  suggestedAmounts = [5, 10, 25, 50, 100, 200];
+  isSubmitting = false;
 
   constructor(
-    private router: Router,
-    private titleService: Title,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
     private globalService: GlobalService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private router: Router,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private paymentsService: PaymentsService
   ) {}
 
   ngOnInit() {
+    this.donateForm = this.fb.group({
+      amount: [25, [Validators.required, Validators.min(5)]],
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
+    });
+
     const queryParams = this.route.snapshot.queryParams;
     if (queryParams['firstTime'] === 'true') {
       this.showWelcomeDialog();
@@ -70,12 +79,7 @@ export class ShowComponent implements OnInit {
   }
 
   openDonationModal(): void {
-    // Redireciona para a tela funcional de pagamento (Stripe)
-    this.router.navigate(['/donate'], {
-      queryParams: {
-        campaignId: this.donation?.id
-      }
-    });
+    this.startCheckout();
   }
 
   getImageUrl(imagePath: string): string {
@@ -135,6 +139,57 @@ export class ShowComponent implements OnInit {
     const pt1 = this.donation.valor / this.valor_total;
     this.alcancado = 100 / pt1;
     return this.alcancado;
+  }
+
+  onAmountSelected(amount: number): void {
+    this.donateForm.patchValue({ amount });
+  }
+
+  startCheckout(): void {
+    if (!this.donation?.id) {
+      this.notificationService.openSnackBar('Campanha nao encontrada.');
+      return;
+    }
+    if (this.donateForm.invalid || this.isSubmitting) {
+      this.donateForm.markAllAsTouched();
+      return;
+    }
+
+    const amount = this.donateForm.get('amount')?.value || 0;
+    const name = this.donateForm.get('name')?.value || '';
+    const email = this.donateForm.get('email')?.value || '';
+
+    const currentUrl = new URL(window.location.href);
+    const successUrl = new URL(currentUrl.toString());
+    const cancelUrl = new URL(currentUrl.toString());
+    successUrl.searchParams.set('status', 'success');
+    cancelUrl.searchParams.set('status', 'cancel');
+
+    this.isSubmitting = true;
+    this.paymentsService.createCheckoutSession({
+      campaignId: this.donation.id,
+      amount: Number(amount).toFixed(2),
+      currency: 'BRL',
+      successUrl: successUrl.toString(),
+      cancelUrl: cancelUrl.toString(),
+      donor: {
+        name,
+        email
+      }
+    }).subscribe({
+      next: (session) => {
+        this.isSubmitting = false;
+        if (!session.url) {
+          this.notificationService.openSnackBar('Checkout indisponivel.');
+          return;
+        }
+        window.location.href = session.url;
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.notificationService.openSnackBar('Erro ao iniciar checkout.');
+      }
+    });
   }
 
   donationOpen(id_doacao: string) {
