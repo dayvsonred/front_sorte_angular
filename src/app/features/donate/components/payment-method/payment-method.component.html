@@ -1,23 +1,23 @@
 <section class="payment-section">
   <h3>Formas de pagamento</h3>
-  <div class="method-grid">
+  <div class="method-list">
     <button
-      mat-stroked-button
       type="button"
       class="method-card"
       [class.selected]="form.get('paymentMethod')?.value === 'google_pay'"
-      (click)="selectMethod('google_pay')">
+      (click)="selectMethod('google_pay')"
+      *ngIf="walletAvailable">
       <span class="radio"></span>
-      <span>Google Pay</span>
+      <span class="method-label">Google Pay</span>
+      <span class="brand-pill">G Pay</span>
     </button>
     <button
-      mat-stroked-button
       type="button"
       class="method-card"
       [class.selected]="form.get('paymentMethod')?.value === 'card'"
       (click)="selectMethod('card')">
       <span class="radio"></span>
-      <span>Cartao de credito/debito</span>
+      <span class="method-label">Credito ou debito</span>
     </button>
   </div>
 
@@ -34,7 +34,7 @@
     <div class="field-row">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
+        <input matInput formControlName="email" autocomplete="off" />
         <mat-error *ngIf="cardGroup.get('email')?.invalid">Email invalido</mat-error>
       </mat-form-field>
     </div>
@@ -42,11 +42,11 @@
     <div class="field-row two-cols">
       <mat-form-field appearance="outline">
         <mat-label>Nome</mat-label>
-        <input matInput formControlName="firstName" />
+        <input matInput formControlName="firstName" autocomplete="off" />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Sobrenome</mat-label>
-        <input matInput formControlName="lastName" />
+        <input matInput formControlName="lastName" autocomplete="off" />
       </mat-form-field>
     </div>
 
@@ -77,7 +77,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>CEP</mat-label>
-      <input matInput formControlName="postalCode" />
+      <input matInput formControlName="postalCode" autocomplete="off" />
     </mat-form-field>
 
     <mat-checkbox formControlName="saveCard">

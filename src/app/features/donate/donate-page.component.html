@@ -1,6 +1,6 @@
 <div class="donate-page" *ngIf="form">
   <mat-card class="donate-card">
-    <form [formGroup]="form">
+    <form [formGroup]="form" autocomplete="off">
     <header class="donate-header">
       <div class="header-left">
         <h1>The Anthropocene: environmentally conscientious games</h1>
@@ -46,6 +46,10 @@
     </app-tip-selector>
 
     <mat-divider></mat-divider>
+
+    <div class="stripe-warning" *ngIf="!stripeReady">
+      {{ stripeStatusMessage || 'Stripe nao inicializado. Verifique a chave publishable e se o stripe.js foi carregado.' }}
+    </div>
 
     <app-payment-method
       [form]="form"

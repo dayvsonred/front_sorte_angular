@@ -21,6 +21,7 @@ export class DonatePageComponent implements OnInit {
   isSubmitting = false;
   campaignId = '';
   private walletClientSecret = '';
+  stripeStatusMessage = '';
 
   @ViewChild(PaymentMethodComponent) paymentMethodComponent?: PaymentMethodComponent;
   suggestedAmounts: SuggestedAmount[] = [
@@ -67,6 +68,11 @@ export class DonatePageComponent implements OnInit {
       || this.route.snapshot.queryParamMap.get('donationId')
       || environment.defaultCampaignId
       || '';
+
+    console.log('DonatePage init:', {
+      campaignId: this.campaignId,
+      hasPublishableKey: !!environment.stripePublishableKey && !environment.stripePublishableKey.includes('SUBSTITUIR')
+    });
 
     this.initStripe();
   }
@@ -200,13 +206,24 @@ export class DonatePageComponent implements OnInit {
 
   private async initStripe(): Promise<void> {
     if (!environment.stripePublishableKey || environment.stripePublishableKey.includes('SUBSTITUIR')) {
+      this.stripeStatusMessage = 'Stripe key ausente ou placeholder.';
+      console.warn('Stripe publishable key ausente ou placeholder.', environment.stripePublishableKey);
+      return;
+    }
+
+    if (environment.stripePublishableKey.startsWith('pk_live') && window.location.protocol !== 'https:') {
+      this.stripeStatusMessage = 'Chave LIVE exige HTTPS. Use pk_test no localhost.';
+      console.warn('Stripe live key em HTTP. Use HTTPS ou pk_test.');
       return;
     }
 
     this.stripe = await loadStripe(environment.stripePublishableKey, { locale: 'pt-BR' });
     if (!this.stripe) {
+      this.stripeStatusMessage = 'Stripe nao inicializado (loadStripe retornou null).';
+      console.warn('Stripe nao inicializado: loadStripe retornou null');
       return;
     }
+    this.stripeStatusMessage = '';
 
     this.elements = this.stripe.elements({
       appearance: {
@@ -230,6 +247,12 @@ export class DonatePageComponent implements OnInit {
 
     const result = await this.paymentRequest.canMakePayment();
     this.walletAvailable = !!result;
+    console.log('Stripe inicializado:', {
+      stripe: !!this.stripe,
+      elements: !!this.elements,
+      walletAvailable: this.walletAvailable,
+      publishableKey: environment.stripePublishableKey ? 'ok' : 'missing'
+    });
 
     this.paymentRequest.on('paymentmethod', async (ev: any) => {
       if (!this.walletClientSecret) {
@@ -299,5 +322,9 @@ export class DonatePageComponent implements OnInit {
         alert('Erro ao criar doacao.');
       }
     });
+  }
+
+  get stripeReady(): boolean {
+    return !!this.stripe && !!this.elements;
   }
 }
