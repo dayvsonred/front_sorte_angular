@@ -30,6 +30,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   sliderImages: string[] = [];
   activeSlide = 0;
   private autoplayId?: number;
+  showShareOptions = false;
 
   constructor(
     private notificationService: NotificationService,
@@ -90,12 +91,66 @@ export class ShowComponent implements OnInit, OnDestroy {
     this.startCheckout();
   }
 
+  shareDonation(): void {
+    const shareData = this.getShareData();
+    if (navigator.share) {
+      navigator.share(shareData)
+        .then(() => {
+          this.showShareOptions = false;
+        })
+        .catch(() => {
+          this.showShareOptions = false;
+        });
+      return;
+    }
+    this.showShareOptions = !this.showShareOptions;
+  }
+
+  getShareLink(platform: 'whatsapp' | 'facebook' | 'twitter' | 'telegram' | 'email'): string {
+    const shareData = this.getShareData();
+    const encodedUrl = encodeURIComponent(shareData.url || window.location.href);
+    const encodedText = encodeURIComponent(`${shareData.title} - ${shareData.text}`.trim());
+    const encodedTitle = encodeURIComponent(shareData.title || 'Campanha de doacao');
+    switch (platform) {
+      case 'whatsapp':
+        return `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+      case 'facebook':
+        return `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+      case 'twitter':
+        return `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
+      case 'telegram':
+        return `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`;
+      case 'email':
+        return `mailto:?subject=${encodedTitle}&body=${encodedText}%0A${encodedUrl}`;
+      default:
+        return shareData.url || window.location.href;
+    }
+  }
+
+  copyShareLink(): void {
+    const url = this.getShareData().url || window.location.href;
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url)
+        .then(() => this.notificationService.openSnackBar('Link copiado.'))
+        .catch(() => this.notificationService.openSnackBar('Nao foi possivel copiar o link.'));
+      return;
+    }
+    this.notificationService.openSnackBar('Nao foi possivel copiar o link.');
+  }
+
   getImageUrl(imagePath: string): string {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
     return `${environment.urlBase}/images/${imagePath}`;
+  }
+
+  private getShareData(): { title: string; text: string; url: string } {
+    const title = this.donation?.name ? `Campanha: ${this.donation.name}` : 'Campanha de doacao';
+    const text = 'Ajude esta campanha com uma doacao.';
+    const url = window.location.origin + window.location.pathname;
+    return { title, text, url };
   }
 
   private buildSliderImages(): void {
