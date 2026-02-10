@@ -74,23 +74,99 @@ mat-icon {
 }
 
 /* Views (Metrics) */
+.views {
+  position: relative;
+  background: radial-gradient(circle at top, rgba(22, 51, 52, 0.08), transparent 55%),
+    linear-gradient(180deg, #f5f5f5 0%, #eef4f1 100%);
+  overflow: hidden;
+}
+
+.views-header {
+  max-width: 720px;
+  margin: 0 auto 32px;
+}
+
+.views-subtitle {
+  color: #4c6462;
+  font-size: 1rem;
+  margin: 8px auto 0;
+}
+
 .metrics-grid {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
-.metric h3 {
-  font-size: 2.5rem;
-  color: #163334;
-  margin-bottom: 8px;
+.metric-card {
+  position: relative;
+  padding: 28px 20px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(22, 51, 52, 0.12);
+  box-shadow: 0 16px 30px rgba(22, 51, 52, 0.12);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.metric p {
-  font-size: 1rem;
-  color: #666;
+.metric-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(22, 51, 52, 0.18);
+}
+
+.metric-value {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 12px;
+  background: linear-gradient(120deg, #163334, #2d7a7d, #8fd694, #163334);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.is-visible .metric-value {
+  opacity: 1;
+  transform: translateY(0);
+  animation: gradientShift 2.8s ease-in-out infinite;
+}
+
+.metric-label {
+  font-size: 0.95rem;
+  color: #5a6f6d;
+  margin: 0;
+}
+
+.metric-glow {
+  position: absolute;
+  inset: -40% -20%;
+  background: radial-gradient(circle, rgba(143, 214, 148, 0.25), rgba(143, 214, 148, 0) 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.is-visible .metric-glow {
+  opacity: 1;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Video Section */
@@ -172,8 +248,7 @@ mat-icon {
   }
 
   .metrics-grid {
-    flex-direction: column;
-    gap: 24px;
+    grid-template-columns: 1fr;
   }
 }
 

@@ -72,20 +72,18 @@
   </section>
 
   <!-- Views (Impact Metrics) -->
-  <section class="section views">
-    <h2>Nosso Impacto</h2>
+  <section class="section views" #impactSection [class.is-visible]="impactInView">
+    <div class="views-header">
+      <h2>Nosso Impacto</h2>
+      <p class="views-subtitle">Números reais, pessoas reais. Cada doação move essa história.</p>
+    </div>
     <div class="metrics-grid">
-      <div class="metric">
-        <h3>10K+</h3>
-        <p>Doações Realizadas</p>
-      </div>
-      <div class="metric">
-        <h3>500+</h3>
-        <p>Projetos Financiados</p>
-      </div>
-      <div class="metric">
-        <h3>100K</h3>
-        <p>Vidas Impactadas</p>
+      <div class="metric-card" *ngFor="let metric of metrics">
+        <div class="metric-value" [attr.aria-label]="metric.label">
+          {{ formatMetricValue(metric) }}
+        </div>
+        <p class="metric-label">{{ metric.label }}</p>
+        <span class="metric-glow" aria-hidden="true"></span>
       </div>
     </div>
   </section>
