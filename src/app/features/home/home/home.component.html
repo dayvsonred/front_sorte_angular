@@ -61,10 +61,10 @@
       <mat-card class="feature-card" *ngFor="let feature of features; let i = index"
         [style.transitionDelay]="(i * 120) + 'ms'">
         <div class="feature-icon">
-          <mat-icon>{{ feature.icon }}</mat-icon>
+          <img [src]="feature.icon" [alt]="feature.title" />
         </div>
-        <h3>{{ feature.title }}</h3>
-        <p>{{ feature.description }}</p>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-text">{{ feature.description }}</p>
       </mat-card>
     </div>
   </section>

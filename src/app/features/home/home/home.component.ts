@@ -36,17 +36,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       title: 'Pagamentos Seguros',
       description: 'Doações protegidas com criptografia e monitoramento antifraude.',
-      icon: 'security',
+      icon: 'assets/bloqueio-inteligente.png',
     },
     {
       title: 'Transparência Total',
       description: 'Acompanhe cada etapa e veja o impacto real da sua doação.',
-      icon: 'visibility',
+      icon: 'assets/comunidade-online.png',
     },
     {
       title: 'Comunidade Engajada',
       description: 'Conecte-se a pessoas e causas que transformam vidas.',
-      icon: 'group',
+      icon: 'assets/reconhecimento-de-olho.png',
     },
   ];
   testimonials = [
@@ -277,6 +277,5 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentTestimonialIndex = index;
   }
 }
-
 
 

@@ -210,12 +210,12 @@ mat-icon {
 
 /* Features */
 .features {
-  background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, rgba(245, 245, 245, 0.9) 0%, rgba(238, 244, 241, 0.9) 100%);
 }
 
 .features-header {
   max-width: 720px;
-  margin: 0 auto 32px;
+  margin: 0 auto 36px;
 }
 
 .features-subtitle {
@@ -224,16 +224,25 @@ mat-icon {
   font-size: 1rem;
 }
 
+.features-grid {
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 28px;
+}
+
 .feature-card {
   position: relative;
-  border-radius: 18px;
+  border-radius: 22px;
   border: 1px solid rgba(22, 51, 52, 0.12);
-  background: #ffffff;
-  box-shadow: 0 10px 24px rgba(22, 51, 52, 0.12);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.6));
+  background-size: 200% 200%;
+  box-shadow: 0 16px 36px rgba(22, 51, 52, 0.12);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 28px 26px 30px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(16px);
 }
 
 .features.is-visible .feature-card {
@@ -242,51 +251,79 @@ mat-icon {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 32px rgba(22, 51, 52, 0.18);
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(22, 51, 52, 0));
+  pointer-events: none;
 }
 
-.feature-card h3 {
-  font-size: 1.25rem;
-  margin: 0 0 8px;
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 44px rgba(22, 51, 52, 0.18);
+  border-color: rgba(22, 51, 52, 0.28);
+}
+
+.features.is-visible .feature-card {
+  animation: featureGlow 6s ease-in-out infinite;
+}
+
+.feature-title {
+  font-size: 1.3rem;
+  margin: 0 0 10px;
   color: #1c2b2c;
   font-weight: 700;
 }
 
-.feature-card p {
+.feature-text {
   margin: 0;
   color: #5a6f6d;
   font-size: 0.98rem;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .feature-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
   display: grid;
   place-items: center;
-  margin: 0 auto 16px;
-  background: radial-gradient(circle, rgba(143, 214, 148, 0.28), rgba(143, 214, 148, 0) 70%);
-  border: 1px solid rgba(22, 51, 52, 0.08);
+  margin: 0 auto 18px;
+  background: radial-gradient(circle at 30% 30%, rgba(143, 214, 148, 0.35), rgba(22, 51, 52, 0.05) 70%);
+  border: 1px solid rgba(22, 51, 52, 0.12);
+  box-shadow: inset 0 8px 16px rgba(255, 255, 255, 0.6);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-icon mat-icon {
-  font-size: 30px;
-  color: #1f5f63;
-  margin: 0;
+.feature-icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(22, 51, 52, 0.18));
   transition: transform 0.3s ease;
 }
 
 .feature-card:hover .feature-icon {
-  transform: scale(1.05);
-  box-shadow: 0 8px 18px rgba(31, 95, 99, 0.2);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 22px rgba(22, 51, 52, 0.16);
 }
 
-.feature-card:hover .feature-icon mat-icon {
-  transform: rotate(-6deg) scale(1.05);
+.feature-card:hover .feature-icon img {
+  transform: rotate(-4deg) scale(1.05);
+}
+
+@keyframes featureGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Views (Metrics) */
@@ -466,6 +503,11 @@ mat-icon {
   .metrics-grid {
     grid-template-columns: 1fr;
   }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
   .feature-card {
     padding: 20px;
   }
@@ -476,6 +518,12 @@ mat-icon {
 
   .testimonial-quote {
     font-size: 70px;
+  }
+}
+
+@media (max-width: 960px) {
+  .features-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 }
 
