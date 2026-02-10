@@ -50,23 +50,21 @@
   </section>
 
   <!-- Our Awesome Features -->
-  <section class="section features">
-    <h2>Nossos Recursos Incríveis</h2>
+  <section class="section features" #featuresSection [class.is-visible]="featuresInView">
+    <div class="features-header">
+      <h2>Nossos Recursos Incríveis</h2>
+      <p class="features-subtitle">
+        Uma experiência segura e transparente, feita para você doar com confiança.
+      </p>
+    </div>
     <div class="features-grid">
-      <mat-card>
-        <mat-icon style="font-size: 24px;">security</mat-icon>
-        <h3>Pagamentos Seguros</h3>
-        <p>Transações protegidas com criptografia SSL.</p>
-      </mat-card>
-      <mat-card>
-        <mat-icon style="font-size: 24px;">visibility</mat-icon>
-        <h3>Transparência Total</h3>
-        <p>Saiba exatamente como sua doação é usada.</p>
-      </mat-card>
-      <mat-card>
-        <mat-icon style="font-size: 24px;">group</mat-icon>
-        <h3>Comunidade Engajada</h3>
-        <p>Junte-se a milhares de doadores apaixonados.</p>
+      <mat-card class="feature-card" *ngFor="let feature of features; let i = index"
+        [style.transitionDelay]="(i * 120) + 'ms'">
+        <div class="feature-icon">
+          <mat-icon>{{ feature.icon }}</mat-icon>
+        </div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
       </mat-card>
     </div>
   </section>
@@ -165,14 +163,49 @@
   </section>
 
   <!-- Testimonials -->
-  <section class="section testimonials">
-    <h2>Depoimentos</h2>
-    <div class="testimonials-grid">
-      <mat-card *ngFor="let testimonial of testimonials">
-        <mat-card-content>{{ testimonial.text }}</mat-card-content>
-        <mat-card-subtitle>{{ testimonial.name }} - {{ testimonial.role }}</mat-card-subtitle>
-      </mat-card>
+  <section class="section testimonials" aria-label="Depoimentos de impacto">
+    <div class="testimonials-header">
+      <h2>Depoimentos</h2>
+      <p class="testimonials-subtitle">Histórias reais de confiança, esperança e transformação.</p>
     </div>
+
+    <div class="testimonial-slider"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Carrossel de depoimentos"
+      aria-live="polite"
+      (mouseenter)="pauseTestimonials()"
+      (mouseleave)="resumeTestimonials()">
+      <div class="testimonial-track"
+        [style.transform]="'translateX(-' + currentTestimonialIndex * 100 + '%)'">
+        <div class="testimonial-slide" *ngFor="let testimonial of testimonials">
+          <mat-card class="testimonial-card">
+            <div class="testimonial-quote" aria-hidden="true">“</div>
+            <div class="testimonial-avatar" aria-hidden="true">
+              <mat-icon>{{ testimonial.avatarIcon }}</mat-icon>
+            </div>
+            <mat-card-content>{{ testimonial.text }}</mat-card-content>
+            <div class="testimonial-meta">
+              <span class="testimonial-name">{{ testimonial.name }}</span>
+              <span class="testimonial-role">{{ testimonial.role }}</span>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="testimonial-dots" role="tablist" aria-label="Navegação dos depoimentos">
+        <button type="button"
+          class="dot"
+          *ngFor="let testimonial of testimonials; let i = index"
+          [class.active]="i === currentTestimonialIndex"
+          (click)="goToTestimonial(i)"
+          [attr.aria-label]="'Ir para depoimento ' + (i + 1)"
+          [attr.aria-selected]="i === currentTestimonialIndex">
+        </button>
+      </div>
+    </div>
+
+    <p class="testimonials-note">Depoimentos ilustrativos e gerados por IA para fins de demonstração.</p>
   </section>
 
   <!-- Read Our News Latest Blog Post -->

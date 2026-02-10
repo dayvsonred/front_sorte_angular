@@ -73,6 +73,222 @@ mat-icon {
   margin-bottom: 16px;
 }
 
+/* Testimonials */
+.testimonials {
+  background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+}
+
+.testimonials-header {
+  max-width: 720px;
+  margin: 0 auto 32px;
+}
+
+.testimonials-subtitle {
+  margin: 8px auto 0;
+  color: #4c6462;
+  font-size: 1rem;
+}
+
+.testimonial-slider {
+  position: relative;
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.testimonial-track {
+  display: flex;
+  transition: transform 0.8s ease-in-out;
+}
+
+.testimonial-slide {
+  min-width: 100%;
+  padding: 8px 0;
+}
+
+.testimonial-card {
+  position: relative;
+  padding: 32px 28px 24px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(22, 51, 52, 0.1);
+  box-shadow: 0 14px 28px rgba(22, 51, 52, 0.12);
+  text-align: center;
+  overflow: hidden;
+}
+
+.testimonial-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(143, 214, 148, 0.12), transparent 60%);
+  pointer-events: none;
+}
+
+.testimonial-quote {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 90px;
+  color: rgba(22, 51, 52, 0.08);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+}
+
+.testimonial-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(45, 122, 125, 0.12);
+  border: 1px solid rgba(22, 51, 52, 0.08);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+
+.testimonial-avatar mat-icon {
+  font-size: 30px;
+  color: #1f5f63;
+  margin: 0;
+}
+
+.testimonial-card mat-card-content {
+  font-size: 1rem;
+  color: #3f5553;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.testimonial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+.testimonial-name {
+  font-weight: 700;
+  color: #1c2b2c;
+}
+
+.testimonial-role {
+  color: #5a6f6d;
+}
+
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(22, 51, 52, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dot.active {
+  background: #1f5f63;
+  transform: scale(1.2);
+}
+
+.dot:focus-visible {
+  outline: 2px solid #1f5f63;
+  outline-offset: 2px;
+}
+
+.testimonials-note {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: #7a8b89;
+}
+
+/* Features */
+.features {
+  background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 100%);
+}
+
+.features-header {
+  max-width: 720px;
+  margin: 0 auto 32px;
+}
+
+.features-subtitle {
+  margin: 8px auto 0;
+  color: #4c6462;
+  font-size: 1rem;
+}
+
+.feature-card {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid rgba(22, 51, 52, 0.12);
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(22, 51, 52, 0.12);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.features.is-visible .feature-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 32px rgba(22, 51, 52, 0.18);
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin: 0 0 8px;
+  color: #1c2b2c;
+  font-weight: 700;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #5a6f6d;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+  background: radial-gradient(circle, rgba(143, 214, 148, 0.28), rgba(143, 214, 148, 0) 70%);
+  border: 1px solid rgba(22, 51, 52, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-icon mat-icon {
+  font-size: 30px;
+  color: #1f5f63;
+  margin: 0;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.05);
+  box-shadow: 0 8px 18px rgba(31, 95, 99, 0.2);
+}
+
+.feature-card:hover .feature-icon mat-icon {
+  transform: rotate(-6deg) scale(1.05);
+}
+
 /* Views (Metrics) */
 .views {
   position: relative;
@@ -249,6 +465,17 @@ mat-icon {
 
   .metrics-grid {
     grid-template-columns: 1fr;
+  }
+  .feature-card {
+    padding: 20px;
+  }
+
+  .testimonial-card {
+    padding: 26px 20px 22px;
+  }
+
+  .testimonial-quote {
+    font-size: 70px;
   }
 }
 

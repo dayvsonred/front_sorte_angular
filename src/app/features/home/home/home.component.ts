@@ -19,17 +19,61 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   Logado = false;
   contactForm: FormGroup;
   impactInView = false;
+  featuresInView = false;
+  currentTestimonialIndex = 0;
+  private testimonialInterval?: ReturnType<typeof setInterval>;
   metrics = [
     { label: 'Doações Realizadas', target: 20000, suffix: '+', display: 0 },
     { label: 'Projetos Financiados', target: 200, suffix: '+', display: 0 },
     { label: 'Vidas Impactadas', target: 4000, suffix: '+', display: 0 },
   ];
   private impactObserver?: IntersectionObserver;
+  private featuresObserver?: IntersectionObserver;
   private metricsAnimated = false;
   @ViewChild('impactSection') impactSection?: ElementRef<HTMLElement>;
+  @ViewChild('featuresSection') featuresSection?: ElementRef<HTMLElement>;
+  features = [
+    {
+      title: 'Pagamentos Seguros',
+      description: 'Doações protegidas com criptografia e monitoramento antifraude.',
+      icon: 'security',
+    },
+    {
+      title: 'Transparência Total',
+      description: 'Acompanhe cada etapa e veja o impacto real da sua doação.',
+      icon: 'visibility',
+    },
+    {
+      title: 'Comunidade Engajada',
+      description: 'Conecte-se a pessoas e causas que transformam vidas.',
+      icon: 'group',
+    },
+  ];
   testimonials = [
-    { name: 'João Silva', text: 'Minha doação fez a diferença! A plataforma é fácil de usar e transparente.', role: 'Doador' },
-    { name: 'Laís Oliveira', text: 'Apoiar esta causa foi emocionante. A história deles me inspirou!', role: 'Voluntária' },
+    {
+      name: 'Mariana Oliveira',
+      role: 'Doadora',
+      text: 'Doei com confiança e recebi atualizações claras. Ver o impacto real foi emocionante.',
+      avatarIcon: 'person',
+    },
+    {
+      name: 'Hiago Lima',
+      role: 'Voluntário',
+      text: 'A plataforma conecta pessoas de verdade. O processo é simples e transparente.',
+      avatarIcon: 'person',
+    },
+    {
+      name: 'Camila Rocha',
+      role: 'Beneficiária',
+      text: 'A doação chegou no momento certo. Sou muito grata por essa rede de apoio.',
+      avatarIcon: 'person',
+    },
+    {
+      name: 'Pedro Alves',
+      role: 'Doador',
+      text: 'Segurança e credibilidade fizeram a diferença. Hoje faço parte dessa comunidade.',
+      avatarIcon: 'person',
+    },
   ];
   blogPosts = [
     { title: 'Nosso Impacto em 2025', excerpt: 'Saiba como suas doações transformaram vidas este ano.', link: '/blog/impacto-2025' },
@@ -73,30 +117,48 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    const section = this.impactSection?.nativeElement;
-    if (!section) {
-      return;
+    const impact = this.impactSection?.nativeElement;
+    if (impact) {
+      this.impactObserver = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          if (entry.isIntersecting) {
+            this.impactInView = true;
+            if (!this.metricsAnimated) {
+              this.metricsAnimated = true;
+              this.animateMetrics();
+            }
+          }
+        },
+        { threshold: 0.35 }
+      );
+
+      this.impactObserver.observe(impact);
     }
 
-    this.impactObserver = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          this.impactInView = true;
-          if (!this.metricsAnimated) {
-            this.metricsAnimated = true;
-            this.animateMetrics();
+    const features = this.featuresSection?.nativeElement;
+    if (features) {
+      this.featuresObserver = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          if (entry.isIntersecting) {
+            this.featuresInView = true;
+            this.featuresObserver?.disconnect();
           }
-        }
-      },
-      { threshold: 0.35 }
-    );
+        },
+        { threshold: 0.25 }
+      );
 
-    this.impactObserver.observe(section);
+      this.featuresObserver.observe(features);
+    }
+
+    this.startTestimonialsAutoSlide();
   }
 
   ngOnDestroy(): void {
     this.impactObserver?.disconnect();
+    this.featuresObserver?.disconnect();
+    this.stopTestimonialsAutoSlide();
   }
 
   logout(): void {
@@ -182,9 +244,39 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     requestAnimationFrame(animate);
   }
+
+  private startTestimonialsAutoSlide(): void {
+    if (this.testimonials.length <= 1) {
+      return;
+    }
+    this.testimonialInterval = setInterval(() => {
+      this.nextTestimonial();
+    }, 5000);
+  }
+
+  private stopTestimonialsAutoSlide(): void {
+    if (this.testimonialInterval) {
+      clearInterval(this.testimonialInterval);
+      this.testimonialInterval = undefined;
+    }
+  }
+
+  pauseTestimonials(): void {
+    this.stopTestimonialsAutoSlide();
+  }
+
+  resumeTestimonials(): void {
+    this.startTestimonialsAutoSlide();
+  }
+
+  nextTestimonial(): void {
+    this.currentTestimonialIndex = (this.currentTestimonialIndex + 1) % this.testimonials.length;
+  }
+
+  goToTestimonial(index: number): void {
+    this.currentTestimonialIndex = index;
+  }
 }
-
-
 
 
 
