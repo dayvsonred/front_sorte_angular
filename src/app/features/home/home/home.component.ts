@@ -141,10 +141,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.featuresObserver = new IntersectionObserver(
         (entries) => {
           const [entry] = entries;
-          if (entry.isIntersecting) {
-            this.featuresInView = true;
-            this.featuresObserver?.disconnect();
-          }
+          this.featuresInView = entry.isIntersecting;
         },
         { threshold: 0.25 }
       );
@@ -277,5 +274,4 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentTestimonialIndex = index;
   }
 }
-
 

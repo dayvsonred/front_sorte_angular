@@ -233,8 +233,8 @@ mat-icon {
   position: relative;
   border-radius: 22px;
   border: 1px solid rgba(22, 51, 52, 0.12);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.6));
-  background-size: 200% 200%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.6));
+  background-size: 220% 220%;
   box-shadow: 0 16px 36px rgba(22, 51, 52, 0.12);
   text-align: center;
   padding: 28px 26px 30px;
@@ -243,6 +243,7 @@ mat-icon {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   opacity: 0;
   transform: translateY(16px);
+  overflow: hidden;
 }
 
 .features.is-visible .feature-card {
@@ -258,6 +259,7 @@ mat-icon {
   border-radius: inherit;
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(22, 51, 52, 0));
   pointer-events: none;
+  z-index: 1;
 }
 
 .feature-card:hover {
@@ -266,15 +268,13 @@ mat-icon {
   border-color: rgba(22, 51, 52, 0.28);
 }
 
-.features.is-visible .feature-card {
-  animation: featureGlow 6s ease-in-out infinite;
-}
-
 .feature-title {
   font-size: 1.3rem;
   margin: 0 0 10px;
   color: #1c2b2c;
   font-weight: 700;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-text {
@@ -282,6 +282,8 @@ mat-icon {
   color: #5a6f6d;
   font-size: 0.98rem;
   line-height: 1.55;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-icon {
@@ -295,6 +297,8 @@ mat-icon {
   border: 1px solid rgba(22, 51, 52, 0.12);
   box-shadow: inset 0 8px 16px rgba(255, 255, 255, 0.6);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .feature-icon img {
@@ -314,15 +318,55 @@ mat-icon {
   transform: rotate(-4deg) scale(1.05);
 }
 
-@keyframes featureGlow {
+.feature-waves {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.feature-wave {
+  position: absolute;
+  width: 760px;
+  height: 760px;
+  left: -40%;
+  top: 35%;
+  border-radius: 42%;
+  background: rgba(97, 172, 169, 0.18);
+  opacity: 0.7;
+  filter: blur(2px);
+  transform-origin: 50% 50%;
+}
+
+.feature-wave.wave-one {
+  animation: featureWaveRotate 18s linear infinite;
+  background: rgba(97, 172, 169, 0.22);
+}
+
+.feature-wave.wave-two {
+  animation: featureWaveRotate 22s linear infinite;
+  background: rgba(143, 214, 148, 0.18);
+}
+
+.feature-wave.wave-three {
+  animation: featureWaveRotate 26s linear infinite;
+  background: rgba(22, 51, 52, 0.14);
+}
+
+.features.is-visible .feature-wave {
+  animation-play-state: running;
+}
+
+.features:not(.is-visible) .feature-wave {
+  animation-play-state: paused;
+}
+
+@keyframes featureWaveRotate {
   0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
+    transform: rotate(0deg);
   }
   100% {
-    background-position: 0% 50%;
+    transform: rotate(360deg);
   }
 }
 

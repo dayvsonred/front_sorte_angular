@@ -60,6 +60,11 @@
     <div class="features-grid">
       <mat-card class="feature-card" *ngFor="let feature of features; let i = index"
         [style.transitionDelay]="(i * 120) + 'ms'">
+        <div class="feature-waves" aria-hidden="true">
+          <span class="feature-wave wave-one"></span>
+          <span class="feature-wave wave-two"></span>
+          <span class="feature-wave wave-three"></span>
+        </div>
         <div class="feature-icon">
           <img [src]="feature.icon" [alt]="feature.title" />
         </div>
