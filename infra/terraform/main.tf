@@ -19,6 +19,33 @@ resource "aws_s3_bucket" "site" {
   bucket = var.bucket_name
 }
 
+resource "aws_s3_bucket" "assets" {
+  provider = aws.us_east_1
+  bucket   = "thepuregracev1-assest-imgs"
+}
+
+resource "aws_s3_bucket_ownership_controls" "assets" {
+  bucket = aws_s3_bucket.assets.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "assets" {
+  bucket                  = aws_s3_bucket.assets.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_object" "assets_prefix" {
+  provider = aws.us_east_1
+  bucket   = aws_s3_bucket.assets.id
+  key      = "assest/"
+  content  = ""
+}
+
 resource "aws_s3_bucket_public_access_block" "site" {
   bucket                  = aws_s3_bucket.site.id
   block_public_acls       = true
