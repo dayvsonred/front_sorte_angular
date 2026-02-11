@@ -17,9 +17,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { PolicyComponent } from './policy/policy.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { NewsComponent } from './news/news.component';
+import { LegalComponent } from './legal/legal.component';
 
 @NgModule({
-    declarations: [HomeComponent, PolicyComponent, ComplaintComponent, NewsComponent],
+    declarations: [HomeComponent, PolicyComponent, ComplaintComponent, NewsComponent, LegalComponent],
     imports: [
         CommonModule,
         HomeRoutingModule,

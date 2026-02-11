@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { PolicyComponent } from './policy/policy.component';
 import { NewsComponent } from './news/news.component';
+import { LegalComponent } from './legal/legal.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
   },
   { path: 'policy', component: PolicyComponent },
   { path: 'novidades', component: NewsComponent },
+  { path: 'termos', component: LegalComponent },
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ import { LocalDatePipe } from './pipes/local-date.pipe';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 const maskConfig: Partial<IConfig> = {
     thousandSeparator: '.',
@@ -41,6 +42,7 @@ const maskConfig: Partial<IConfig> = {
         YesNoPipe,
         LayoutComponent,
         HeaderComponent,
+        FooterComponent,
     ],
     exports: [
         FormsModule,
@@ -53,6 +55,7 @@ const maskConfig: Partial<IConfig> = {
         LocalDatePipe,
         YesNoPipe,
         HeaderComponent,
+        FooterComponent,
     ]
 })
 export class SharedModule { }

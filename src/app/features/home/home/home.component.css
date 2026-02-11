@@ -594,26 +594,6 @@ mat-icon {
   justify-content: flex-end;
 }
 
-/* Footer */
-.footer {
-  background-color: #163334;
-  color: white;
-  padding: 24px 16px;
-  text-align: center;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
-}
-
-.social-icons mat-icon {
-  color: white;
-  font-size: 24px;
-}
-
 /* Responsiveness */
 @media (max-width: 600px) {
   .hero {
