@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   contactForm: FormGroup;
   impactInView = false;
   featuresInView = false;
+  whatWeDoInView = false;
   currentTestimonialIndex = 0;
   private testimonialInterval?: ReturnType<typeof setInterval>;
   metrics = [
@@ -29,9 +30,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   private impactObserver?: IntersectionObserver;
   private featuresObserver?: IntersectionObserver;
+  private whatWeDoObserver?: IntersectionObserver;
   private metricsAnimated = false;
   @ViewChild('impactSection') impactSection?: ElementRef<HTMLElement>;
   @ViewChild('featuresSection') featuresSection?: ElementRef<HTMLElement>;
+  @ViewChild('whatWeDoSection') whatWeDoSection?: ElementRef<HTMLElement>;
   features = [
     {
       title: 'Pagamentos Seguros',
@@ -77,7 +80,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
   blogPosts = [
     { title: 'Nosso Impacto em 2025', excerpt: 'Saiba como suas doações transformaram vidas este ano.', link: '/blog/impacto-2025' },
-    { title: 'Nova Campanha de Educação', excerpt: 'Lançamos uma iniciativa para apoiar escolas locais.', link: '/blog/educacao-2025' },
+    { title: 'Atualizações da Plataforma', excerpt: 'Acompanhe melhorias, novidades e evoluções contínuas do nosso sistema.', link: '/blog/educacao-2025' },
   ];
   teamMembers = [
     { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', email: 'domains@thepuregrace.com', image: 'assets/cmo_v1.png', style: "" },
@@ -149,12 +152,26 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.featuresObserver.observe(features);
     }
 
+    const whatWeDo = this.whatWeDoSection?.nativeElement;
+    if (whatWeDo) {
+      this.whatWeDoObserver = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          this.whatWeDoInView = entry.isIntersecting;
+        },
+        { threshold: 0.3 }
+      );
+
+      this.whatWeDoObserver.observe(whatWeDo);
+    }
+
     this.startTestimonialsAutoSlide();
   }
 
   ngOnDestroy(): void {
     this.impactObserver?.disconnect();
     this.featuresObserver?.disconnect();
+    this.whatWeDoObserver?.disconnect();
     this.stopTestimonialsAutoSlide();
   }
 
@@ -274,4 +291,3 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentTestimonialIndex = index;
   }
 }
-

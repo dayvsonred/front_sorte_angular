@@ -117,11 +117,13 @@
   </section>
 
   <!-- What We Do We Are Digital -->
-  <section class="section what-we-do">
-    <h2>O Que Fazemos: Somos Digitais</h2>
-    <p>Utilizamos tecnologia de ponta para conectar doadores a causas significativas, com uma plataforma intuitiva e
-      acessível.</p>
-    <button mat-stroked-button [routerLink]="['/create/doacao']">Saiba Mais</button>
+  <section class="section what-we-do" #whatWeDoSection [class.is-visible]="whatWeDoInView">
+    <div class="what-we-do-content">
+      <h2>O Que Fazemos: Somos Digitais</h2>
+      <p>Utilizamos tecnologia de ponta para conectar doadores a causas significativas, com uma plataforma intuitiva e
+        acessível.</p>
+      <button mat-stroked-button class="tech-button" [routerLink]="['/create/doacao']">Saiba Mais</button>
+    </div>
   </section>
 
   <!-- About Us We Are Partners -->
