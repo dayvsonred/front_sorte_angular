@@ -14,6 +14,7 @@ import { DialogSimpleMessageComponent } from '../dialog-simple-message/dialog-si
   styleUrls: ['./show.component.css']
 })
 export class ShowComponent implements OnInit, OnDestroy {
+  assetsBaseUrl = environment.assetsBaseUrl;
   donation: any = null;
   mensagens: any[] = [];
   totalMensagensValor: any = 0;

@@ -14,6 +14,7 @@ import { APP_NAME } from 'src/app/core/constants/branding';
   styleUrls: ['./complaint.component.css']
 })
 export class ComplaintComponent implements OnInit {
+  assetsBaseUrl = environment.assetsBaseUrl;
   appName = APP_NAME;
   Logado = false;
   contactForm: FormGroup;

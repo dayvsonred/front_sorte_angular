@@ -16,6 +16,7 @@ import { APP_NAME } from 'src/app/core/constants/branding';
 })
 export class PolicyComponent implements OnInit {
   appName = APP_NAME;
+  assetsBaseUrl = environment.assetsBaseUrl;
 isMobile: any;
 toggleSidebar() {
 throw new Error('Method not implemented.');

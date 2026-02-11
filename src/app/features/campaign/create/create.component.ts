@@ -18,6 +18,7 @@ import { map, Observable, of } from 'rxjs';
 })
 export class CreateComponent implements OnInit {
   Logado = false;
+  assetsBaseUrl = environment.assetsBaseUrl;
   start = false;
   form: FormGroup;
   selectedFile: File | null = null;

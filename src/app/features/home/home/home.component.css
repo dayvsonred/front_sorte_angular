@@ -26,7 +26,7 @@ button[color="primary"] {
 
 /* Hero Section */
 .hero {
-  background: url('/assets/home_trofel.png') no-repeat center/cover;
+  background: no-repeat center/cover;
   /* 
   background: url('https://static.vecteezy.com/system/resources/previews/035/598/397/large_2x/ai-generated-champion-award-trophy-cup-winner-concept-ai-generated-photo.jpg') no-repeat center/cover;
   */
@@ -685,137 +685,6 @@ mat-icon {
 
 
 
-
-
-
-
-
-
-
-
-
-.custom-toolbar {
-  background-color: #163334;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.toolbar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 16px;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  height: 48px;
-  margin-right: 16px;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.auth-buttons button {
-  margin-left: 8px;
-}
-
-.login-button {
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  color: white;
-}
-
-
-.ql-toolbar {
-  border-radius: 4px 4px 0 0;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
-
-.ql-editor {
-  min-height: 150px;
-  padding: 12px;
-}
-
-/* Ajuste para erros */
-.mat-form-field-invalid .ql-container {
-  border-color: #f44336;
-}
-
-.mat-form-field-invalid .ql-toolbar {
-  border-color: #f44336;
-  border-bottom-color: #ccc;
-}
-
-
-/* Estilos para o Quill Editor */
-.ql-container {
-  min-height: 150px;
-  border-radius: 0 0 4px 4px;
-  border: 1px solid #ccc;
-}
-
-.ql-toolbar {
-  border-radius: 4px 4px 0 0;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  background-color: #f9f9f9;
-}
-
-
-/* Toolbar padrão */
-.custom-toolbar {
-  background-color: #163334;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.toolbar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 16px;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  height: 48px;
-  margin-right: 16px;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-/* Estilo dos botões de autenticação */
-.auth-buttons button {
-  margin-left: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  color: white !important;
-}
-
-/* Ajuste responsivo */
-@media (max-width: 600px) {
-  .auth-buttons button {
-    margin-left: 4px;
-    padding: 0 8px;
-  }
-
-  .logo {
-    height: 32px;
-  }
-}
 
 
 

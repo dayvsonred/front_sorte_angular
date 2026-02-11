@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   impactInView = false;
   featuresInView = false;
   whatWeDoInView = false;
+  assetsBaseUrl = environment.assetsBaseUrl;
   currentTestimonialIndex = 0;
   private testimonialInterval?: ReturnType<typeof setInterval>;
   metrics = [
@@ -39,17 +40,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       title: 'Pagamentos Seguros',
       description: 'Doações protegidas com criptografia e monitoramento antifraude.',
-      icon: 'assets/bloqueio-inteligente.png',
+      icon: `${environment.assetsBaseUrl}/assest/bloqueio-inteligente.png`,
     },
     {
       title: 'Transparência Total',
       description: 'Acompanhe cada etapa e veja o impacto real da sua doação.',
-      icon: 'assets/comunidade-online.png',
+      icon: `${environment.assetsBaseUrl}/assest/comunidade-online.png`,
     },
     {
       title: 'Comunidade Engajada',
       description: 'Conecte-se a pessoas e causas que transformam vidas.',
-      icon: 'assets/reconhecimento-de-olho.png',
+      icon: `${environment.assetsBaseUrl}/assest/reconhecimento-de-olho.png`,
     },
   ];
   testimonials = [
@@ -93,8 +94,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ];
   teamMembers = [
-    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', email: 'domains@thepuregrace.com', image: 'assets/cmo_v1.png', style: "" },
-    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', email: 'admin@thepuregrace.com', image: 'assets/cto_v1.png', style: "" },
+    { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', email: 'domains@thepuregrace.com', image: `${environment.assetsBaseUrl}/assest/cmo_v1.png`, style: "" },
+    { name: 'Dayvson Vicente', role: ' CTO – Chief Technology Officer (Diretor de Tecnologia) ', email: 'admin@thepuregrace.com', image: `${environment.assetsBaseUrl}/assest/cto_v1.png`, style: "" },
   ];
   router: any;
 
