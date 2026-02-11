@@ -13,11 +13,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { PolicyComponent } from './policy/policy.component';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { NewsComponent } from './news/news.component';
 
 @NgModule({
-    declarations: [HomeComponent, PolicyComponent, ComplaintComponent],
+    declarations: [HomeComponent, PolicyComponent, ComplaintComponent, NewsComponent],
     imports: [
         CommonModule,
         HomeRoutingModule,
@@ -33,7 +35,8 @@ import { ComplaintComponent } from './complaint/complaint.component';
         MatInputModule,
         MatSelectModule,
         MatSnackBarModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatExpansionModule
     ]
 })
 export class HomeModule { }

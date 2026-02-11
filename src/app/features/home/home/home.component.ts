@@ -79,8 +79,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     },
   ];
   blogPosts = [
-    { title: 'Nosso Impacto em 2025', excerpt: 'Saiba como suas doações transformaram vidas este ano.', link: '/blog/impacto-2025' },
-    { title: 'Atualizações da Plataforma', excerpt: 'Acompanhe melhorias, novidades e evoluções contínuas do nosso sistema.', link: '/blog/educacao-2025' },
+    {
+      title: 'Nosso Impacto em 2025',
+      excerpt: 'Saiba como suas doações transformaram vidas este ano.',
+      link: '/home/novidades',
+      queryParams: { post: 'impacto-2025' }
+    },
+    {
+      title: 'Atualizações da Plataforma',
+      excerpt: 'Acompanhe melhorias, novidades e evoluções contínuas do nosso sistema.',
+      link: '/home/novidades',
+      queryParams: { post: 'educacao-2025' }
+    },
   ];
   teamMembers = [
     { name: 'Marina Oliveira', role: 'CMO – Chief Marketing Officer (Diretor de Marketing)', email: 'domains@thepuregrace.com', image: 'assets/cmo_v1.png', style: "" },

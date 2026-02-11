@@ -222,7 +222,7 @@
       <mat-card *ngFor="let post of blogPosts">
         <mat-card-title>{{ post.title }}</mat-card-title>
         <mat-card-content>{{ post.excerpt }}</mat-card-content>
-        <button mat-stroked-button [routerLink]="post.link">Leia Mais</button>
+        <button mat-stroked-button [routerLink]="post.link" [queryParams]="post.queryParams">Leia Mais</button>
       </mat-card>
     </div>
   </section>

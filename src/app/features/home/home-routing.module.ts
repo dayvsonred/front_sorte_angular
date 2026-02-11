@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ComplaintComponent } from './complaint/complaint.component';
 import { PolicyComponent } from './policy/policy.component';
+import { NewsComponent } from './news/news.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     ],
   },
   { path: 'policy', component: PolicyComponent },
+  { path: 'novidades', component: NewsComponent },
 ];
 
 @NgModule({
