@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { delay } from 'rxjs/operators';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
@@ -377,6 +377,21 @@ export class AuthenticationService {
                     () =>
                         'No momento não estamos conseguindo validar este dados, tente novamente mais tarde!'
                 );
+            })
+        );
+    }
+
+    public confirmEmail(email: string, token: string): Observable<any> {
+        const params = new HttpParams()
+            .set('email', email)
+            .set('token', token);
+
+        return this.http.get<any>(`${environment.urlBase}/users/confirmEmail`, { params }).pipe(
+            map((res) => res),
+            catchError((e) => {
+                if (e.error?.message) return throwError(() => e.error.message);
+                if (typeof e.error === 'string') return throwError(() => e.error);
+                return throwError(() => 'Erro ao validar email. Entre em contato com os administradores.');
             })
         );
     }

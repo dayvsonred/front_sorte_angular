@@ -8,6 +8,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NewUserComponent } from './new-user/new-user.component';
 import { AvValidEmailComponent } from './av-valid-email/av-valid-email.component';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { AvValidEmailComponent } from './av-valid-email/av-valid-email.component
     SharedModule,
     AuthRoutingModule
   ],
-  declarations: [LoginComponent, PasswordResetRequestComponent, PasswordResetComponent, NewUserComponent, AvValidEmailComponent]
+  declarations: [LoginComponent, PasswordResetRequestComponent, PasswordResetComponent, NewUserComponent, AvValidEmailComponent, EmailConfirmationComponent]
 })
 export class AuthModule { }
