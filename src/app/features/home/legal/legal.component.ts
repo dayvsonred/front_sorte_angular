@@ -26,10 +26,29 @@ export class LegalComponent implements OnInit {
         'Taxas: podem existir taxas administrativas e encargos governamentais. Essas taxas podem variar conforme o método de pagamento, localidade e regras vigentes.',
         'Reembolsos: pedidos de reembolso são analisados caso a caso, conforme a política de doações e a legislação aplicável.',
         'Uso proibido: é vedado criar campanhas fraudulentas, enganosas, ilegais ou que violem direitos de terceiros.',
+        'Termo de uso de conteúdo do usuário: ao publicar textos, imagens, vídeos ou campanhas, você declara que possui os direitos necessários, autorização do titular ou base legal válida para uso e divulgação.',
+        'Proibição de conteúdo de terceiros sem autorização: é proibido publicar campanhas, fotos, marcas, nomes, obras ou qualquer material de terceiros sem permissão expressa do titular dos direitos.',
+        'Responsabilidade do usuário: o usuário é integralmente responsável pelo conteúdo publicado, incluindo veracidade, titularidade, autorizações e eventuais danos causados a terceiros.',
+        'Direitos autorais e retirada de conteúdo: a plataforma pode remover, bloquear ou suspender conteúdos e contas mediante denúncia ou suspeita de infração de direitos autorais, imagem, marca, privacidade ou uso indevido de doações.',
+        'Isenção e indenização: na extensão permitida por lei, a plataforma não se responsabiliza por conteúdo de usuário nem por violações cometidas por usuários, e o usuário concorda em indenizar a plataforma por reclamações de terceiros decorrentes de suas publicações.',
+        'Licença de uso para operação da plataforma: ao enviar conteúdo, você concede licença não exclusiva para hospedar, exibir, reproduzir e distribuir esse conteúdo apenas para operação, segurança, moderação e promoção da própria plataforma.',
         'Moderação: a ThePureGrace pode revisar, suspender ou remover campanhas e contas que violem estes termos, por motivos legais ou de segurança.',
         'Disponibilidade: o serviço pode ser alterado, suspenso ou descontinuado a qualquer momento por razões técnicas ou legais.',
         'Jurisdicional: estes termos são regidos pelas leis do Brasil, sem prejuízo de aplicação de leis locais quando o serviço for utilizado em outros países.',
         'Atualizações: podemos atualizar estes termos periodicamente. A continuidade do uso indica concordância com as mudanças.'
+      ]
+    },
+    {
+      id: 'termo-de-uso',
+      title: 'Termo de uso de conteúdo e direitos autorais',
+      content: [
+        'Ao publicar qualquer campanha, texto, imagem, vídeo, logotipo, marca ou documento, o usuário declara que é o titular dos direitos ou possui autorização legal válida para uso e divulgação do conteúdo.',
+        'É proibido publicar campanhas de terceiros sem consentimento, bem como utilizar imagens, nomes, marcas ou obras de terceiros sem autorização.',
+        'O usuário é o único responsável pelo conteúdo que publica, incluindo veracidade das informações, origem do material e eventuais violações de direitos autorais, direito de imagem, privacidade ou outros direitos de terceiros.',
+        'A plataforma pode, a qualquer momento, remover conteúdo, limitar alcance, bloquear campanha, suspender conta e cooperar com autoridades quando houver denúncia, indício de fraude ou suspeita de infração legal.',
+        'Na extensão permitida pela lei, a plataforma não é responsável por danos causados por conteúdo publicado por usuários e não garante a legitimidade de materiais enviados por terceiros.',
+        'O usuário concorda em defender, indenizar e isentar a plataforma por reclamações, perdas, custos e danos decorrentes de conteúdo que tenha publicado ou de uso indevido da plataforma.',
+        'Ao enviar conteúdo, o usuário concede licença não exclusiva para armazenamento, exibição e processamento técnico do material para operação, segurança, moderação e divulgação da própria plataforma.'
       ]
     },
     {
