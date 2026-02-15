@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSlideToggleModule
 
   ],
   declarations: [ShowComponent, DonationModalComponent, QrCodeComponent, CreateComponent, DialogSimpleMessageComponent]

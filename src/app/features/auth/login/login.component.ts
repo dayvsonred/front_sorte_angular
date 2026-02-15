@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit {
         this.loginForm = new UntypedFormGroup({
             email: new UntypedFormControl(savedUserEmail, [Validators.required, Validators.email]),
             password: new UntypedFormControl('', Validators.required),
-            rememberMe: new UntypedFormControl(savedUserEmail !== null)
+            rememberMe: new UntypedFormControl(savedUserEmail !== null),
+            acceptTerms: new UntypedFormControl(true)
         });
     }
 
@@ -102,6 +103,10 @@ export class LoginComponent implements OnInit {
     }
 
     createUser() {
+        if (!this.loginForm.get('acceptTerms')?.value) {
+            this.notificationService.openSnackBar('Você precisa aceitar os termos da plataforma para criar conta.');
+            return;
+        }
         this.router.navigate(['/auth/new-user']);
     }
 }

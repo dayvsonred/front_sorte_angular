@@ -118,6 +118,30 @@ input[type="file"] {
   font-size: 0.875rem;
 }
 
+.terms-toggle-row {
+  margin-top: 8px;
+}
+
+.terms-link {
+  color: #163334;
+  text-decoration: underline;
+}
+
+.terms-link:hover {
+  text-decoration: none;
+}
+
+::ng-deep .system-green-toggle.mat-mdc-slide-toggle {
+  --mdc-switch-selected-track-color: #163334;
+  --mdc-switch-selected-focus-track-color: #163334;
+  --mdc-switch-selected-hover-track-color: #163334;
+  --mdc-switch-selected-pressed-track-color: #163334;
+  --mdc-switch-selected-handle-color: #163334;
+  --mdc-switch-selected-focus-handle-color: #163334;
+  --mdc-switch-selected-hover-handle-color: #163334;
+  --mdc-switch-selected-pressed-handle-color: #163334;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

@@ -32,12 +32,22 @@
                     <mat-slide-toggle formControlName="rememberMe">Lembrar meu endereço de e-mail</mat-slide-toggle>
                 </div>
 
+                <div class="full-width">
+                    <mat-slide-toggle formControlName="acceptTerms">
+                        <a [routerLink]="['/home/termos']"
+                            [queryParams]="{ item: 'termo-de-uso' }"
+                            (click)="$event.stopPropagation()">
+                            Aceitar termos da plataforma
+                        </a>
+                    </mat-slide-toggle>
+                </div>
+
             </mat-card-content>
 
             <mat-card-actions class="login-actions">
                 <button mat-raised-button id="login" color="primary" [disabled]="loginForm.invalid || loading"
                     (click)="login()">Login</button>
-                <button mat-button id="criar" (click)="createUser()" type="button">Criar  Conta</button>    
+                <button mat-button id="criar" (click)="createUser()" type="button" [disabled]="!loginForm.get('acceptTerms')?.value">Criar  Conta</button>    
                 <button mat-button id="resetPassword" (click)="resetPassword()" type="button">Reset Password</button>
             </mat-card-actions>
 
@@ -46,3 +56,4 @@
         <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
     </form>
 </div>
+

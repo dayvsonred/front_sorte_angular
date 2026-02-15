@@ -143,12 +143,22 @@
               <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
               <mat-error *ngIf="!selectedFile && form.touched">Imagem é obrigatória</mat-error>
             </div>
+            <div class="terms-toggle-row">
+              <mat-slide-toggle class="system-green-toggle" formControlName="acceptTerms" >
+                <a class="terms-link"
+                  [routerLink]="['/home/termos']"
+                  [queryParams]="{ item: 'termo-de-uso' }"
+                  (click)="$event.stopPropagation()">
+                  Aceitar termos da plataforma
+                </a>
+              </mat-slide-toggle>
+            </div>
           </div>
 
           <!-- Submit Button -->
           <div class="form-actions">
             <button mat-raised-button color="primary" type="submit"
-              [disabled]="form.invalid || !selectedFile || disableSubmit">
+              [disabled]="form.invalid || !selectedFile || !form.get('acceptTerms')?.value || disableSubmit">
               <mat-icon *ngIf="disableSubmit">hourglass_empty</mat-icon>
               {{ disableSubmit ? 'Criando...' : 'Criar Conta e Doação' }}
             </button>
@@ -166,3 +176,6 @@
 
   <app-footer></app-footer>
 </div>
+
+
+

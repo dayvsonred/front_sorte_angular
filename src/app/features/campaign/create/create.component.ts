@@ -55,6 +55,7 @@ export class CreateComponent implements OnInit {
       titulo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(130)]],
       meta: ['', [Validators.required, this.currencyValidator, Validators.maxLength(20)]],
       categoria: ['', Validators.required],
+      acceptTerms: [true, Validators.requiredTrue],
       texto: [`
 <h1>Digite aqui seu título</h1>
 
@@ -98,7 +99,11 @@ export class CreateComponent implements OnInit {
 
   submit(): void {
     if (this.form.invalid || !this.selectedFile) {
-      this.notificationService.openSnackBar('Preencha todos os campos corretamente e selecione uma imagem.');
+      if (!this.form.get('acceptTerms')?.value) {
+        this.notificationService.openSnackBar('Você precisa aceitar os termos da plataforma.');
+      } else {
+        this.notificationService.openSnackBar('Preencha todos os campos corretamente e selecione uma imagem.');
+      }
       this.form.markAllAsTouched(); // Mark all fields as touched to show errors
       return;
     }
