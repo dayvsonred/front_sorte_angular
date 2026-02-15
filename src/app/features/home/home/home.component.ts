@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private globalService: GlobalService,
     private http: HttpClient
   ) {
-    this.titleService.setTitle(APP_NAME + ' - Apoie Nossa Causa');
+    this.titleService.setTitle(APP_NAME + ' - Doar inspira vida');
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],

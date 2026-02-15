@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Meta, Title } from '@angular/platform-browser';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { GlobalService } from 'src/app/core/services/global.service';
 import { PaymentsService } from 'src/app/core/services/payments.service';
@@ -14,6 +16,8 @@ import { DialogSimpleMessageComponent } from '../dialog-simple-message/dialog-si
   styleUrls: ['./show.component.css']
 })
 export class ShowComponent implements OnInit, OnDestroy {
+  private readonly defaultDescription = 'Campanha de doacao no ThePureGrace. Contribua com seguranca e acompanhe a arrecadacao.';
+  private readonly jsonLdScriptId = 'campaign-jsonld';
   assetsBaseUrl = environment.assetsBaseUrl;
   donation: any = null;
   mensagens: any[] = [];
@@ -40,7 +44,10 @@ export class ShowComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private paymentsService: PaymentsService
+    private paymentsService: PaymentsService,
+    private titleService: Title,
+    private meta: Meta,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit() {
@@ -68,6 +75,7 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopAutoplay();
+    this.removeJsonLd();
   }
 
   fetchDonation(nomeLink: string): void {
@@ -76,6 +84,7 @@ export class ShowComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.donation = response;
           console.log('Doacao recebida:', this.donation);
+          this.applyCampaignSeo();
           this.buildSliderImages();
           this.showMensagens();
           this.loadPixTotais();
@@ -152,6 +161,112 @@ export class ShowComponent implements OnInit, OnDestroy {
     const text = 'Ajude esta campanha com uma doacao.';
     const url = window.location.origin + window.location.pathname;
     return { title, text, url };
+  }
+
+  private applyCampaignSeo(): void {
+    const campaignName = this.donation?.name || 'Campanha de doacao';
+    const campaignCategory = this.donation?.area || 'Doacoes';
+    const pageUrl = this.getCurrentPageUrl();
+    const image = this.getPrimaryImageUrl();
+    const description = this.buildCampaignDescription();
+
+    this.titleService.setTitle(`${campaignName} | ${environment.nomeProjetoTitulo}`);
+    this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:site_name', content: environment.nomeProjetoTitulo });
+    this.meta.updateTag({ property: 'og:title', content: campaignName });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    this.meta.updateTag({ property: 'og:url', content: pageUrl });
+    this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: campaignName });
+    this.meta.updateTag({ name: 'twitter:description', content: description });
+    this.meta.updateTag({ name: 'twitter:image', content: image });
+    this.meta.updateTag({ name: 'keywords', content: `${campaignName}, campanha, doacao, ${campaignCategory}, thepuregrace` });
+
+    this.setCanonicalUrl(pageUrl);
+    this.setJsonLd({
+      name: campaignName,
+      description,
+      url: pageUrl,
+      image,
+      category: campaignCategory
+    });
+  }
+
+  private buildCampaignDescription(): string {
+    const plainText = this.stripHtml((this.donation?.texto || '').toString()).trim();
+    if (!plainText) {
+      return this.defaultDescription;
+    }
+    return plainText.length > 160 ? `${plainText.slice(0, 157)}...` : plainText;
+  }
+
+  private stripHtml(value: string): string {
+    return value
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  private getPrimaryImageUrl(): string {
+    const imagePath = this.donation?.img_caminho || '';
+    const fallback = `${this.assetsBaseUrl}/assest/logo_bb.png`;
+    if (!imagePath) {
+      return fallback;
+    }
+    return this.getImageUrl(imagePath);
+  }
+
+  private getCurrentPageUrl(): string {
+    if (typeof window !== 'undefined' && window.location?.href) {
+      return window.location.origin + window.location.pathname;
+    }
+    return '';
+  }
+
+  private setCanonicalUrl(url: string): void {
+    if (!url) {
+      return;
+    }
+    let link = this.document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+    }
+    link.setAttribute('href', url);
+  }
+
+  private setJsonLd(data: { name: string; description: string; url: string; image: string; category: string }): void {
+    this.removeJsonLd();
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = this.jsonLdScriptId;
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: data.name,
+      description: data.description,
+      url: data.url,
+      image: data.image,
+      about: {
+        '@type': 'Thing',
+        name: data.category
+      },
+      isPartOf: {
+        '@type': 'WebSite',
+        name: environment.nomeProjetoTitulo
+      }
+    });
+    this.document.head.appendChild(script);
+  }
+
+  private removeJsonLd(): void {
+    const current = this.document.getElementById(this.jsonLdScriptId);
+    if (current?.parentNode) {
+      current.parentNode.removeChild(current);
+    }
   }
 
   private buildSliderImages(): void {

@@ -40,7 +40,7 @@ export class ComplaintComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private globalService: GlobalService,
   ) {
-    this.titleService.setTitle(APP_NAME + ' - Apoie Nossa Causa');
+    this.titleService.setTitle(APP_NAME + ' - Doar inspira vida');
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
