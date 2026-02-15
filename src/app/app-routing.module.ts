@@ -55,8 +55,13 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 's2/:id',
+    path: 'pg/:id',
     loadChildren: () => import('./features/campaign/campaign.module').then(m => m.CampaignModule),
+  },
+  {
+    path: 's2/:id',
+    redirectTo: 'pg/:id',
+    pathMatch: 'full'
   },
   {
     path: 'donate',

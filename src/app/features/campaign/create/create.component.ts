@@ -127,11 +127,11 @@ export class CreateComponent implements OnInit {
     this.globalService.createUserAndDonation(formData).subscribe({
       next: (res) => {
         this.notificationService.openSnackBar('Usuário e Doação criados com sucesso!');
-        //this.router.navigate(['/s2/' + res.nome_link], { queryParams: { firstTime: 'true' } });
+        //this.router.navigate(['/pg/' + res.nome_link], { queryParams: { firstTime: 'true' } });
         //this.disableSubmit = false;
         setTimeout(() => { // ➡️ Delay de 2 segundos
           this.loading = false;
-          this.router.navigate(['/s2/' + res.nome_link], { queryParams: { firstTime: 'true' } });
+          this.router.navigate(['/pg/' + res.nome_link], { queryParams: { firstTime: 'true' } });
           this.disableSubmit = false;
         }, 2500);
       },
