@@ -63,7 +63,7 @@ terraform import aws_s3_bucket.site thepuregracev1
 cd "C:\Users\niore\Documents\projeto sorteio doacao\front_sorte_angular"
 npm install
 ng build --configuration production
-aws s3 sync dist\angular-material-template\ s3://thepuregracev1 --delete
+aws s3 sync dist\thepuregrace\ s3://thepuregracev1 --delete
 ```
 
 #### 3) Limpar cache do CloudFront (recomendado apos deploy)
