@@ -8,6 +8,12 @@ import { TestimonialItem } from '../../architect-showcase.models';
 })
 export class TestimonialsCarouselComponent {
   @Input() testimonials: TestimonialItem[] = [];
+  @Input() eyebrow = 'Testimonials';
+  @Input() title = '';
+  @Input() previousButtonLabel = 'Previous';
+  @Input() nextButtonLabel = 'Next';
+  @Input() indicatorsAriaLabel = 'Testimonial indicators';
+  @Input() goToAriaPrefix = 'Go to testimonial';
 
   activeIndex = 0;
 

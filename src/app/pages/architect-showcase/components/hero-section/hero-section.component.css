@@ -42,6 +42,46 @@
   font-size: 0.85rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.language-switcher {
+  display: inline-flex;
+  gap: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.flag-btn {
+  border: 0;
+  background: transparent;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.flag-btn:hover {
+  transform: translateY(-1px);
+}
+
+.flag-btn.active {
+  background: #0f766e;
+}
+
+.flag {
+  font-size: 1.1rem;
+}
+
 .header-cta,
 .hero-actions {
   display: flex;

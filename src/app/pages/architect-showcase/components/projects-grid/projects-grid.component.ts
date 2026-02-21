@@ -8,4 +8,6 @@ import { ProjectItem } from '../../architect-showcase.models';
 })
 export class ProjectsGridComponent {
   @Input() projects: ProjectItem[] = [];
+  @Input() eyebrow = 'Projects';
+  @Input() title = '';
 }

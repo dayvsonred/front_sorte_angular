@@ -9,4 +9,5 @@ import { MetricItem } from '../../architect-showcase.models';
 export class MetricsStripComponent {
   @Input() metrics: MetricItem[] = [];
   @Input() logos: string[] = [];
+  @Input() ariaLabel = 'Social proof and technical capabilities';
 }

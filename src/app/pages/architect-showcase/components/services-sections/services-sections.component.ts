@@ -8,6 +8,8 @@ import { ServiceItem } from '../../architect-showcase.models';
 })
 export class ServicesSectionsComponent {
   @Input() services: ServiceItem[] = [];
+  @Input() eyebrow = 'Services';
+  @Input() title = '';
 
   getIcon(iconKey: string): string {
     const icons: Record<string, string> = {

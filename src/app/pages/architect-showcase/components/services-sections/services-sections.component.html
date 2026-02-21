@@ -1,6 +1,6 @@
 <div class="heading">
-  <p class="eyebrow">Servicos</p>
-  <h2>Arquitetura e engenharia para operar com confianca em producao</h2>
+  <p class="eyebrow">{{ eyebrow }}</p>
+  <h2>{{ title }}</h2>
 </div>
 
 <article class="service-row" *ngFor="let service of services; let i = index" [class.reverse]="i % 2 === 1">

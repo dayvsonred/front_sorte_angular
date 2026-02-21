@@ -8,4 +8,7 @@ import { FinalCtaData } from '../../architect-showcase.models';
 })
 export class FinalCtaComponent {
   @Input() cta!: FinalCtaData;
+  @Input() eyebrow = '';
+  @Input() title = '';
+  @Input() description = '';
 }

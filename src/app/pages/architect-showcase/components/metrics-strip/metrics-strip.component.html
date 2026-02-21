@@ -1,4 +1,4 @@
-<section class="metrics-wrap" aria-label="Prova social e capacidades tecnicas">
+<section class="metrics-wrap" [attr.aria-label]="ariaLabel">
   <div class="metrics-grid">
     <article class="metric-card" *ngFor="let item of metrics">
       <p class="metric-value">{{ item.value }}</p>

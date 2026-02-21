@@ -1,6 +1,6 @@
 <div class="heading">
-  <p class="eyebrow">Depoimentos</p>
-  <h2>Resultados percebidos por liderancas de produto e tecnologia</h2>
+  <p class="eyebrow">{{ eyebrow }}</p>
+  <h2>{{ title }}</h2>
 </div>
 
 <article class="carousel-card" *ngIf="testimonials.length">
@@ -9,17 +9,17 @@
   <p class="meta">{{ testimonials[activeIndex].role }} - {{ testimonials[activeIndex].company }}</p>
 
   <div class="controls">
-    <button type="button" (click)="prev()" aria-label="Depoimento anterior">Anterior</button>
-    <button type="button" (click)="next()" aria-label="Proximo depoimento">Proximo</button>
+    <button type="button" (click)="prev()" [attr.aria-label]="previousButtonLabel">{{ previousButtonLabel }}</button>
+    <button type="button" (click)="next()" [attr.aria-label]="nextButtonLabel">{{ nextButtonLabel }}</button>
   </div>
 
-  <div class="dots" role="tablist" aria-label="Indicadores de depoimentos">
+  <div class="dots" role="tablist" [attr.aria-label]="indicatorsAriaLabel">
     <button
       type="button"
       *ngFor="let testimonial of testimonials; let i = index"
       [class.active]="i === activeIndex"
       (click)="goTo(i)"
-      [attr.aria-label]="'Ir para depoimento ' + (i + 1)">
+      [attr.aria-label]="goToAriaPrefix + ' ' + (i + 1)">
     </button>
   </div>
 </article>

@@ -7,10 +7,25 @@
     </div>
   </div>
 
-  <nav class="header-cta">
-    <a href="#projetos" class="btn btn-ghost">{{ hero.primaryLabel }}</a>
-    <a href="https://linktr.ee/dayvson.red" class="btn btn-solid">{{ hero.secondaryLabel }}</a>
-  </nav>
+  <div class="header-actions">
+    <div class="language-switcher" role="group" aria-label="Language selector">
+      <button
+        type="button"
+        class="flag-btn"
+        *ngFor="let language of languages"
+        [class.active]="selectedLanguage === language.code"
+        [attr.aria-label]="language.label"
+        [attr.aria-pressed]="selectedLanguage === language.code"
+        (click)="selectLanguage(language.code)">
+        <span class="flag" aria-hidden="true">{{ language.flag }}</span>
+      </button>
+    </div>
+
+    <nav class="header-cta">
+      <a href="#projetos" class="btn btn-ghost">{{ hero.primaryLabel }}</a>
+      <a href="https://linktr.ee/dayvson.red" class="btn btn-solid">{{ hero.secondaryLabel }}</a>
+    </nav>
+  </div>
 </header>
 
 <section class="hero-grid">

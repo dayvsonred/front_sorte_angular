@@ -45,6 +45,36 @@ export interface FinalCtaData {
   note: string;
 }
 
+export interface MetricsText {
+  ariaLabel: string;
+}
+
+export interface SectionHeadingText {
+  eyebrow: string;
+  title: string;
+}
+
+export interface TestimonialsText extends SectionHeadingText {
+  previousButton: string;
+  nextButton: string;
+  indicatorsAriaLabel: string;
+  goToAriaPrefix: string;
+}
+
+export interface FinalCtaStaticText {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+export interface ShowcaseTextContent {
+  metrics: MetricsText;
+  services: SectionHeadingText;
+  projects: SectionHeadingText;
+  testimonials: TestimonialsText;
+  cta: FinalCtaStaticText;
+}
+
 export interface HeroContent {
   title: string;
   subtitle: string;
@@ -69,4 +99,7 @@ export interface ArchitectShowcaseData {
   projects: ProjectItem[];
   testimonials: TestimonialItem[];
   cta: FinalCtaData;
+  text: ShowcaseTextContent;
 }
+
+export type ShowcaseLanguage = 'pt' | 'en' | 'es';
