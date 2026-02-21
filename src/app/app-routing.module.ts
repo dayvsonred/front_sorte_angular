@@ -67,6 +67,18 @@ const appRoutes: Routes = [
     path: 'donate',
     loadChildren: () => import('./features/donate/donate.module').then(m => m.DonateModule),
   },
+  {
+    path: 'architect',
+    loadChildren: () => import('./pages/architect-showcase/architect-showcase.module').then(m => m.ArchitectShowcaseModule),
+  },
+  {
+    path: 'portfolio-arquitetura',
+    loadChildren: () => import('./pages/architect-showcase/architect-showcase.module').then(m => m.ArchitectShowcaseModule),
+  },
+  {
+    path: 'Cloud-Engineer-Portfolio',
+    loadChildren: () => import('./pages/architect-showcase/architect-showcase.module').then(m => m.ArchitectShowcaseModule),
+  },
     {
     path: 'create',
     loadChildren: () => import('./features/campaign/campaign.module').then(m => m.CampaignModule),

@@ -1,0 +1,41 @@
+<header class="hero-header">
+  <div class="brand-block">
+    <div class="brand-logo" aria-hidden="true">CE</div>
+    <div>
+      <div class="brand-name">{{ brand.logoText }}</div>
+      <p class="brand-tagline">{{ brand.logoTagline }}</p>
+    </div>
+  </div>
+
+  <nav class="header-cta">
+    <a href="#projetos" class="btn btn-ghost">{{ hero.primaryLabel }}</a>
+    <a href="https://linktr.ee/dayvson.red" class="btn btn-solid">{{ hero.secondaryLabel }}</a>
+  </nav>
+</header>
+
+<section class="hero-grid">
+  <div class="hero-copy">
+    <h1>{{ hero.title }}</h1>
+    <p>{{ hero.subtitle }}</p>
+    <div class="hero-actions">
+      <a href="#projetos" class="btn btn-solid">{{ hero.primaryLabel }}</a>
+      <a href="https://linktr.ee/dayvson.red" class="btn btn-outline">{{ hero.secondaryLabel }}</a>
+    </div>
+
+    <article class="architect-card">
+      <img [src]="architect.photoUrl" [alt]="architect.name" loading="lazy" />
+      <div>
+        <h2>{{ architect.name }}</h2>
+        <p class="architect-title">{{ architect.title }}</p>
+        <p class="architect-bio">{{ architect.bio }}</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="hero-media">
+    <img [src]="hero.imageUrl" [alt]="hero.imageAlt" loading="lazy" />
+    <div class="highlight-list">
+      <span *ngFor="let item of architect.highlights">{{ item }}</span>
+    </div>
+  </div>
+</section>

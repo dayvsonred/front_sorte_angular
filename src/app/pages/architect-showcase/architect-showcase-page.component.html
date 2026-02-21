@@ -1,0 +1,28 @@
+<div class="architect-page">
+  <app-hero-section
+    [brand]="data.brand"
+    [hero]="data.hero"
+    [architect]="data.architect">
+  </app-hero-section>
+
+  <app-metrics-strip
+    [metrics]="data.metrics"
+    [logos]="data.logos">
+  </app-metrics-strip>
+
+  <section id="servicos" class="section-shell">
+    <app-services-sections [services]="data.services"></app-services-sections>
+  </section>
+
+  <section id="projetos" class="section-shell">
+    <app-projects-grid [projects]="data.projects"></app-projects-grid>
+  </section>
+
+  <section id="depoimentos" class="section-shell">
+    <app-testimonials-carousel [testimonials]="data.testimonials"></app-testimonials-carousel>
+  </section>
+
+  <section id="contato" class="section-shell">
+    <app-final-cta [cta]="data.cta"></app-final-cta>
+  </section>
+</div>
