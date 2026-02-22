@@ -149,6 +149,12 @@
   color: #0f766e;
 }
 
+.btn-youtube {
+  background: #ff0000;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(255, 0, 0, 0.28);
+}
+
 .hero-grid {
   display: grid;
   gap: 20px;
