@@ -59,6 +59,7 @@
 }
 
 .flag-btn {
+  position: relative;
   border: 0;
   background: transparent;
   width: 34px;
@@ -79,7 +80,36 @@
 }
 
 .flag {
-  font-size: 1.1rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.flag-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.74rem;
+  line-height: 1.2;
+  border-radius: 8px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 5;
+}
+
+.flag-btn:hover .flag-tooltip,
+.flag-btn:focus-visible .flag-tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .header-cta,

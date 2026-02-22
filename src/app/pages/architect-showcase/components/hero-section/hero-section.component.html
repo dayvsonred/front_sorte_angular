@@ -15,9 +15,11 @@
         *ngFor="let language of languages"
         [class.active]="selectedLanguage === language.code"
         [attr.aria-label]="language.label"
+        [attr.title]="language.tooltip"
         [attr.aria-pressed]="selectedLanguage === language.code"
         (click)="selectLanguage(language.code)">
-        <span class="flag" aria-hidden="true">{{ language.flag }}</span>
+        <img class="flag" [src]="language.flagUrl" [alt]="language.label" loading="lazy" />
+        <span class="flag-tooltip" role="tooltip">{{ language.tooltip }}</span>
       </button>
     </div>
 
