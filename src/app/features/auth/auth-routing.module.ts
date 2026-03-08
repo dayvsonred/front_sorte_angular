@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'password-reset-request', component: PasswordResetRequestComponent },
   { path: 'password-reset', component: PasswordResetComponent },
   { path: 'new-user', component: NewUserComponent },
+  { path: 'confirmar-email', component: EmailConfirmationComponent },
   { path: 'email-confirmation', component: EmailConfirmationComponent },
   { path: 'valid-email', component: AvValidEmailComponent },
   { path: 'valid-email/:user/:email', component: AvValidEmailComponent }
